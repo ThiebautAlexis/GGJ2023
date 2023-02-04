@@ -13,15 +13,17 @@ namespace GGJ2023
         #region Fields and Properties
         [Header("Game Inputs")]
         [SerializeField] private InputActionMap inputClick = null;
-        private Vector2 mousePosition = Vector2.zero;
         #endregion
 
         #region Private Methods
-        private void OnMousePosition(InputAction.CallbackContext _context) => mousePosition = _context.ReadValue<Vector2>();
+        private void OnMousePosition(InputAction.CallbackContext _context) => GameManager.Instance.UpdatePrevisualisation(_context.ReadValue<Vector2>());
 
         private void OnMouseClick(InputAction.CallbackContext _context)
         {
-            Debug.Log("Value => " + _context.ReadValueAsButton()); 
+            if (_context.ReadValueAsButton())
+            {
+                Debug.Log("Button Pressed");                
+            }
         }
         #endregion
 

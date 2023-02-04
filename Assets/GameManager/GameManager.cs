@@ -12,6 +12,9 @@ namespace GGJ2023
         [Header("Grid")]
         [SerializeField] private GridData baseGrid;
         [SerializeField] private Tilemap tilemap;
+
+        [Header("Camera")]
+        [SerializeField] private new Camera camera; 
         
         [Header("Tests")]
         [SerializeField] private Tile rootTile;
@@ -110,6 +113,13 @@ namespace GGJ2023
         {
             OnGameStarted?.Invoke(); 
         }
+        #endregion
+
+        #region Public Method
+        public void UpdatePrevisualisation(Vector2 _mousePosition)
+        {
+            Debug.Log(camera.ScreenToWorldPoint(_mousePosition)); 
+        }
+        #endregion
     }
-    #endregion
 }
