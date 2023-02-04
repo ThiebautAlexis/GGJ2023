@@ -8,9 +8,9 @@ namespace GGJ2023
     #region Enums
     public enum CellState
     {
-        Empty   = -1, 
-        Root    = 0, 
-        Burrow  = 1
+        Empty   = 0, 
+        Root    = 1, 
+        Burrow  = 2
     }
 
     [Flags]
