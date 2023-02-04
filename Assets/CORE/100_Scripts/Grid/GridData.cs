@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace GGJ2023
 {
-    [CreateAssetMenu(fileName = "Grid Data", menuName = "GGJ2023/Grid/GridData", order = 101)]
+    [CreateAssetMenu(fileName = "Grid Data", menuName = "GGJ2023/Data/Grid", order = 101)]
     public class GridData : ScriptableObject
     {
         #region Fields and Properties
@@ -23,15 +23,15 @@ namespace GGJ2023
         /// </summary>
         public CellState[,] GetConvertedCells()
         {
-                CellState[,] data = new CellState[xLength, yLength];
-                for (int y = 0; y < xLength; y++)
+            CellState[,] data = new CellState[xLength, yLength];
+            for (int y = 0; y < yLength; y++)
+            {
+                for (int x = 0; x < xLength; x++)
                 {
-                    for (int x = 0; x < yLength; x++)
-                    {
-                        data[x, y] = cells[x + y]; 
-                    }
+                    data[x, y] = cells[x + (y * xLength)]; 
                 }
-                return data; 
+            }
+            return data; 
         }
         #endregion 
     }

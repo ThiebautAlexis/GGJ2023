@@ -133,6 +133,7 @@ GameObject:
   m_Component:
   - component: {fileID: 520235366}
   - component: {fileID: 520235365}
+  - component: {fileID: 520235367}
   m_Layer: 0
   m_Name: GAME MANAGER
   m_TagString: Untagged
@@ -154,6 +155,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   baseGrid: {fileID: 11400000, guid: 3cec0f4e55456cc4eba7fad89c09bb0a, type: 2}
   tilemap: {fileID: 1473089627}
+  rootTile: {fileID: 11400000, guid: 792d35ea466d3f640a997f514e13da76, type: 2}
+  tileData: {fileID: 11400000, guid: 7555685214f8fc348833b6c063411517, type: 2}
 --- !u!4 &520235366
 Transform:
   m_ObjectHideFlags: 0
@@ -169,6 +172,56 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &520235367
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 520235364}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0bf30585d219dd54db96348a92470acb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inputClick:
+    m_Name: Input Click
+    m_Id: 4e4cfa1f-0a42-4f22-9ff2-b5088b5075d3
+    m_Asset: {fileID: 0}
+    m_Actions:
+    - m_Name: MouseClick
+      m_Type: 1
+      m_ExpectedControlType: Button
+      m_Id: b720768e-dbcd-41a1-86e3-4ae1e6d87299
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings: []
+      m_Flags: 0
+    - m_Name: MousePosition
+      m_Type: 0
+      m_ExpectedControlType: Vector2
+      m_Id: 12d2a655-4a67-415d-b14a-b0d589827758
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings: []
+      m_Flags: 0
+    m_Bindings:
+    - m_Name: 
+      m_Id: 013e2718-aa37-4bf0-8e13-3f29e1dedf1d
+      m_Path: <Mouse>/leftButton
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: MouseClick
+      m_Flags: 0
+    - m_Name: 
+      m_Id: 6ff48f1b-751d-4e98-b6ca-4268d934c3f7
+      m_Path: <Mouse>/position
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: MousePosition
+      m_Flags: 0
 --- !u!1 &725077330
 GameObject:
   m_ObjectHideFlags: 0
@@ -194,7 +247,7 @@ Grid:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 725077330}
   m_Enabled: 1
-  m_CellSize: {x: 1, y: 1, z: 0}
+  m_CellSize: {x: 2, y: 2, z: 0}
   m_CellGap: {x: 0, y: 0, z: 0}
   m_CellLayout: 0
   m_CellSwizzle: 0
@@ -206,7 +259,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 725077330}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -16, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -306,15 +359,39 @@ Tilemap:
   m_Enabled: 1
   m_Tiles: {}
   m_AnimatedTiles: {}
-  m_TileAssetArray: []
-  m_TileSpriteArray: []
-  m_TileMatrixArray: []
-  m_TileColorArray: []
+  m_TileAssetArray:
+  - m_RefCount: 0
+    m_Data: {fileID: 0}
+  m_TileSpriteArray:
+  - m_RefCount: 0
+    m_Data: {fileID: 0}
+  m_TileMatrixArray:
+  - m_RefCount: 0
+    m_Data:
+      e00: 2.7380325e+32
+      e01: 0
+      e02: 1.8295932e-19
+      e03: 1.8295932e-19
+      e10: 6.39e-43
+      e11: 0
+      e12: 6.35e-43
+      e13: 6.35e-43
+      e20: -2.6470264e-22
+      e21: 1e-45
+      e22: -4.1428534e-19
+      e23: 8.601436e+9
+      e30: 4.5905e-41
+      e31: 0
+      e32: 6.35e-43
+      e33: 6.38e-43
+  m_TileColorArray:
+  - m_RefCount: 0
+    m_Data: {r: NaN, g: NaN, b: NaN, a: NaN}
   m_TileObjectToInstantiateArray: []
   m_AnimationFrameRate: 1
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Origin: {x: 0, y: 0, z: 0}
-  m_Size: {x: 0, y: 0, z: 1}
+  m_Origin: {x: -1, y: 0, z: 0}
+  m_Size: {x: 1, y: 2, z: 1}
   m_TileAnchor: {x: 0.5, y: 0.5, z: 0}
   m_TileOrientation: 0
   m_TileOrientationMatrix:
@@ -341,6 +418,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1385599508574991645, guid: f5e832aafdb5634409d93fbab675d26f, type: 3}
+      propertyPath: orthographic size
+      value: 9
+      objectReference: {fileID: 0}
     - target: {fileID: 1385599508574991646, guid: f5e832aafdb5634409d93fbab675d26f, type: 3}
       propertyPath: m_Name
       value: 'Camera '
@@ -359,7 +440,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1385599508574991842, guid: f5e832aafdb5634409d93fbab675d26f, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -10
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 1385599508574991842, guid: f5e832aafdb5634409d93fbab675d26f, type: 3}
       propertyPath: m_LocalRotation.w
