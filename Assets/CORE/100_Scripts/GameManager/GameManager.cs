@@ -62,10 +62,10 @@ namespace GGJ2023
 
         private void FillTileFromData(TileData _tileData, int _xPos, int _yPos)
         {
-            //tilemap.SetTile(new Vector3Int(_xPos, - _yPos, 0), _tileData.Tile); 
+            tilemap.SetTile(new Vector3Int(_xPos, - _yPos, 0), _tileData.Tile); 
 
             /* USE THIS PART OF THE CODE IF THE TILES ARE COMPOSED WITH MULTIPLE TILES TOGETHER 
-             */ 
+             
 
             // Top Left
             if(_tileData.Shape.HasFlag(TileShape.TopLeft))
@@ -112,7 +112,7 @@ namespace GGJ2023
             {
                 tilemap.SetTile(new Vector3Int(_xPos + 1, -(_yPos - 1), 0), tileData.Tile);
             }
-            
+            */
         }
 
         private void StartGame()
@@ -139,6 +139,16 @@ namespace GGJ2023
             {
                 previsualisationTilemap.color = _isValidTile ? validColor : invalidColor;
                 previsualisationTilemap.SetTile(gridPosition, tileData.Tile); 
+            }
+        }
+
+        public void PlaceTile()
+        {
+            if(_isValidTile) 
+            {
+                GameGrid.FillPosition(gridPosition.x, -gridPosition.y, tileData);
+                tilemap.SetTile(gridPosition, tileData.Tile); 
+                previsualisationTilemap.ClearAllTiles(); 
             }
         }
         #endregion

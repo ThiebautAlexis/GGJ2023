@@ -41,8 +41,8 @@ namespace GGJ2023
                 _displayTile = false; 
                 return false; 
             }
-
             _displayTile = true; 
+
             // Center 
             if (_tileData.Shape.HasFlag(TileShape.Center) &&
                 cells[_xCenterIndex, _yCenterIndex] != CellState.Empty)
@@ -50,44 +50,42 @@ namespace GGJ2023
 
             // Top
             if ((_tileData.Shape.HasFlag(TileShape.TopLeft) || _tileData.Shape.HasFlag(TileShape.Top) || _tileData.Shape.HasFlag(TileShape.TopRight)) &&
-                (_yCenterIndex - 1 < 0) || (_yCenterIndex -1 >= 0 && cells[_xCenterIndex, _yCenterIndex - 1] != CellState.Empty))
-            {
+                (_yCenterIndex - 1 < 0 || (_yCenterIndex -1 >= 0 && cells[_xCenterIndex, _yCenterIndex - 1] != CellState.Empty)))
                 return false; 
-            } 
 
             // Bottom
             if ((_tileData.Shape.HasFlag(TileShape.BottomLeft) || _tileData.Shape.HasFlag(TileShape.Bottom) || _tileData.Shape.HasFlag(TileShape.BottomRight)) &&
-               (_yCenterIndex + 1 >= cells.GetLength(1)) || cells[_xCenterIndex, _yCenterIndex + 1] != CellState.Empty)
+               (_yCenterIndex + 1 >= cells.GetLength(1) || cells[_xCenterIndex, _yCenterIndex + 1] != CellState.Empty))
                 return false;
 
             // Left 
             if ((_tileData.Shape.HasFlag(TileShape.BottomLeft) || _tileData.Shape.HasFlag(TileShape.Left) || _tileData.Shape.HasFlag(TileShape.TopLeft)) &&
-                (_xCenterIndex - 1 < 0) || cells[_xCenterIndex - 1, _yCenterIndex] != CellState.Empty)
+                (_xCenterIndex - 1 < 0 || cells[_xCenterIndex - 1, _yCenterIndex] != CellState.Empty))
                 return false;
 
             // Right 
             if ((_tileData.Shape.HasFlag(TileShape.BottomRight) || _tileData.Shape.HasFlag(TileShape.Right) || _tileData.Shape.HasFlag(TileShape.TopRight)) &&
-                (_xCenterIndex +1  >= cells.GetLength(0)) || cells[_xCenterIndex + 1, _yCenterIndex] != CellState.Empty)
+                (_xCenterIndex +1  >= cells.GetLength(0) || cells[_xCenterIndex + 1, _yCenterIndex] != CellState.Empty))
                 return false;
 
             // Top Left
-            if ((_tileData.Shape.HasFlag(TileShape.TopLeft)) &&
-                 (_yCenterIndex - 1 < 0) && (_xCenterIndex - 1 < 0) && cells[_xCenterIndex - 1, _yCenterIndex - 1] != CellState.Empty)
+            if (_tileData.Shape.HasFlag(TileShape.TopLeft) &&
+                _yCenterIndex - 1 >= 0 && _xCenterIndex - 1 >= 0 && cells[_xCenterIndex - 1, _yCenterIndex - 1] != CellState.Empty)
                 return false;
 
             // Bottom Left
-            if ((_tileData.Shape.HasFlag(TileShape.BottomLeft)) &&
-                  (_yCenterIndex + 1 >= cells.GetLength(1)) && (_xCenterIndex - 1 < 0) && cells[_xCenterIndex - 1, _yCenterIndex + 1] != CellState.Empty)
+            if (_tileData.Shape.HasFlag(TileShape.BottomLeft) &&
+                _yCenterIndex + 1 <= cells.GetLength(1) && _xCenterIndex - 1 >= 0 && cells[_xCenterIndex - 1, _yCenterIndex + 1] != CellState.Empty)
                 return false;
 
             // Top Right
-            if ((_tileData.Shape.HasFlag(TileShape.BottomLeft)) &&
-               (_yCenterIndex - 1 < 0) && (_xCenterIndex + 1 >= cells.GetLength(0)) && cells[_xCenterIndex + 1, _yCenterIndex - 1] != CellState.Empty)
+            if (_tileData.Shape.HasFlag(TileShape.TopRight) &&
+               _yCenterIndex - 1 >= 0 && _xCenterIndex + 1 <= cells.GetLength(0) && cells[_xCenterIndex + 1, _yCenterIndex - 1] != CellState.Empty)
                 return false;
 
             // Bottom Right
-            if ((_tileData.Shape.HasFlag(TileShape.BottomLeft)) &&
-               (_yCenterIndex + 1 >= cells.GetLength(1)) && (_xCenterIndex + 1 >= cells.GetLength(0)) && cells[_xCenterIndex + 1, _yCenterIndex + 1] != CellState.Empty)
+            if (_tileData.Shape.HasFlag(TileShape.BottomRight) &&
+               _yCenterIndex + 1 <= cells.GetLength(1) && _xCenterIndex + 1 <= cells.GetLength(0) && cells[_xCenterIndex + 1, _yCenterIndex + 1] != CellState.Empty)
                 return false;
 
             if ((_tileData.Shape.HasFlag(TileShape.TopLeft) && CheckNeighbourTiles(_xCenterIndex - 1, _yCenterIndex - 1, _tileData.Data.TopLeftState)) ||
@@ -110,6 +108,37 @@ namespace GGJ2023
                     (_y - 1 >= 0 && (cells[_x, _y - 1] == CellState.Root || cells[_x, _y - 1] == _validState)) ||
                     (_x + 1 < cells.GetLength(0) && (cells[_x + 1, _y] == CellState.Root || cells[_x+1,_y] == _validState)) ||
                     (_y + 1 < cells.GetLength(1) && (cells[_x, _y + 1] == CellState.Root || cells[_x,_y+1] == _validState)) );
+        }
+
+        public static void FillPosition(int _x, int _y, TileData _data)
+        {
+            if (_data.Shape.HasFlag(TileShape.TopLeft))
+                cells[_x - 1, _y - 1] = _data.Data.TopLeftState;
+            if (_data.Shape.HasFlag(TileShape.Top))
+                cells[_x, _y - 1] = _data.Data.TopState;
+            if (_data.Shape.HasFlag(TileShape.TopRight))
+                cells[_x + 1, _y - 1] = _data.Data.TopRightState;
+            if (_data.Shape.HasFlag(TileShape.Left))
+                cells[_x - 1, _y] = _data.Data.LeftState;
+            if (_data.Shape.HasFlag(TileShape.Center))
+                cells[_x, _y] = _data.Data.CenterState;
+            if (_data.Shape.HasFlag(TileShape.Right))
+                cells[_x + 1, _y] = _data.Data.RightState;
+            if (_data.Shape.HasFlag(TileShape.BottomLeft))
+                cells[_x - 1, _y + 1] = _data.Data.BottomLeftState;
+            if (_data.Shape.HasFlag(TileShape.Bottom))
+                cells[_x, _y + 1] = _data.Data.BottomState;
+            if (_data.Shape.HasFlag(TileShape.BottomRight))
+                cells[_x + 1, _y + 1] = _data.Data.TopLeftState;
+
+            for (int i = 0; i < cells.GetLength(1); i++)
+            {
+                for (int j = 0; j < cells.GetLength(0); j++)
+                {
+                    Debug.Log(cells[j, i]); 
+                }
+                Debug.Log("---"); 
+            }
         }
         #endregion
 
