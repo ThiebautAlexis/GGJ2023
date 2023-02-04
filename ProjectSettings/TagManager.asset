@@ -41,3 +41,9 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Tiles
+    uniqueID: 4264786915
+    locked: 0
+  - name: Previsualisation
+    uniqueID: 1127339643
+    locked: 0
