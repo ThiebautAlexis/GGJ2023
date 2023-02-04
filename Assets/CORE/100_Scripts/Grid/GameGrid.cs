@@ -90,26 +90,26 @@ namespace GGJ2023
                (_yCenterIndex + 1 >= cells.GetLength(1)) && (_xCenterIndex + 1 >= cells.GetLength(0)) && cells[_xCenterIndex + 1, _yCenterIndex + 1] != CellState.Empty)
                 return false;
 
-            if ((_tileData.Shape.HasFlag(TileShape.TopLeft) && CheckNeighbourTiles(_xCenterIndex - 1, _yCenterIndex - 1)) ||
-                (_tileData.Shape.HasFlag(TileShape.Top) && CheckNeighbourTiles(_xCenterIndex, _yCenterIndex - 1)) ||
-                (_tileData.Shape.HasFlag(TileShape.TopRight) && CheckNeighbourTiles(_xCenterIndex + 1, _yCenterIndex - 1)) ||
-                (_tileData.Shape.HasFlag(TileShape.Left) && CheckNeighbourTiles(_xCenterIndex - 1, _yCenterIndex)) ||
-                (_tileData.Shape.HasFlag(TileShape.Center) && CheckNeighbourTiles(_xCenterIndex, _yCenterIndex)) ||
-                (_tileData.Shape.HasFlag(TileShape.Right) && CheckNeighbourTiles(_xCenterIndex + 1, _yCenterIndex)) ||
-                (_tileData.Shape.HasFlag(TileShape.BottomLeft) && CheckNeighbourTiles(_xCenterIndex - 1, _yCenterIndex + 1)) ||
-                (_tileData.Shape.HasFlag(TileShape.Bottom) && CheckNeighbourTiles(_xCenterIndex, _yCenterIndex + 1)) ||
-                (_tileData.Shape.HasFlag(TileShape.BottomRight) && CheckNeighbourTiles(_xCenterIndex + 1, _yCenterIndex + 1)) )
+            if ((_tileData.Shape.HasFlag(TileShape.TopLeft) && CheckNeighbourTiles(_xCenterIndex - 1, _yCenterIndex - 1, _tileData.Data.TopLeftState)) ||
+                (_tileData.Shape.HasFlag(TileShape.Top) && CheckNeighbourTiles(_xCenterIndex, _yCenterIndex - 1, _tileData.Data.TopState)) ||
+                (_tileData.Shape.HasFlag(TileShape.TopRight) && CheckNeighbourTiles(_xCenterIndex + 1, _yCenterIndex - 1, _tileData.Data.TopRightState)) ||
+                (_tileData.Shape.HasFlag(TileShape.Left) && CheckNeighbourTiles(_xCenterIndex - 1, _yCenterIndex, _tileData.Data.LeftState)) ||
+                (_tileData.Shape.HasFlag(TileShape.Center) && CheckNeighbourTiles(_xCenterIndex, _yCenterIndex, _tileData.Data.CenterState)) ||
+                (_tileData.Shape.HasFlag(TileShape.Right) && CheckNeighbourTiles(_xCenterIndex + 1, _yCenterIndex, _tileData.Data.RightState)) ||
+                (_tileData.Shape.HasFlag(TileShape.BottomLeft) && CheckNeighbourTiles(_xCenterIndex - 1, _yCenterIndex + 1, _tileData.Data.BottomLeftState)) ||
+                (_tileData.Shape.HasFlag(TileShape.Bottom) && CheckNeighbourTiles(_xCenterIndex, _yCenterIndex + 1, _tileData.Data.BottomState)) ||
+                (_tileData.Shape.HasFlag(TileShape.BottomRight) && CheckNeighbourTiles(_xCenterIndex + 1, _yCenterIndex + 1, _tileData.Data.BottomRightState)) )
                 return true;
 
             return false;
         }
 
-        private static bool CheckNeighbourTiles(int _x, int _y)
+        private static bool CheckNeighbourTiles(int _x, int _y, CellState _validState)
         {
-            return ((_x - 1 >= 0 && _y < cells.GetLength(1) && cells[_x - 1, _y] != CellState.Empty) ||
-                    (_y - 1 >= 0 && cells[_x, _y - 1] != CellState.Empty) ||
-                    (_x + 1 < cells.GetLength(0) && cells[_x + 1, _y] != CellState.Empty) ||
-                    (_y + 1 < cells.GetLength(1) && cells[_x, _y + 1] != CellState.Empty)) ;
+            return ((_x - 1 >= 0 && _y < cells.GetLength(1) && (cells[_x - 1, _y] == CellState.Root || cells[_x - 1, _y] == _validState)) ||
+                    (_y - 1 >= 0 && (cells[_x, _y - 1] == CellState.Root || cells[_x, _y - 1] == _validState)) ||
+                    (_x + 1 < cells.GetLength(0) && (cells[_x + 1, _y] == CellState.Root || cells[_x+1,_y] == _validState)) ||
+                    (_y + 1 < cells.GetLength(1) && (cells[_x, _y + 1] == CellState.Root || cells[_x,_y+1] == _validState)) );
         }
         #endregion
 

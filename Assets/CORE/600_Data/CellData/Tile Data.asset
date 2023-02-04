@@ -15,12 +15,12 @@ MonoBehaviour:
   Shape: 624
   Data:
     TopLeftState: 2
-    TopState: 0
-    TopRightState: 0
-    LeftState: 0
+    TopState: 2
+    TopRightState: 2
+    LeftState: 2
     CenterState: 2
-    RightState: 0
-    BottomLeftState: 0
-    BottomState: 0
+    RightState: 2
+    BottomLeftState: 2
+    BottomState: 2
     BottomRightState: 2
   Tile: {fileID: 11400000, guid: 7a53881103ebf934caa8233b15dc40d0, type: 2}
