@@ -11,10 +11,16 @@ namespace GGJ2023
 
         [Header("Grid")]
         [SerializeField] private GridData baseGrid;
+        [SerializeField] private Grid grid; 
         [SerializeField] private Tilemap tilemap;
 
         [Header("Camera")]
-        [SerializeField] private new Camera camera; 
+        [SerializeField] private new Camera camera;
+
+        [Header("Previsualisation")]
+        [SerializeField] private Tilemap previsualisationTilemap;
+        [SerializeField] private Color validColor;
+        [SerializeField] private Color invalidColor; 
         
         [Header("Tests")]
         [SerializeField] private Tile rootTile;
@@ -32,7 +38,7 @@ namespace GGJ2023
         {
             if (Instance == null)
                 Instance = this;
-            else Destroy(this); 
+            else Destroy(this);
         }
 
         private void Start()
@@ -111,14 +117,29 @@ namespace GGJ2023
 
         private void StartGame()
         {
-            OnGameStarted?.Invoke(); 
+            OnGameStarted?.Invoke();
         }
         #endregion
 
         #region Public Method
+        Vector3Int previousGridPosition = Vector3Int.zero; 
+        Vector3Int gridPosition = Vector3Int.zero;
+        private bool _isValidTile = false; 
         public void UpdatePrevisualisation(Vector2 _mousePosition)
         {
-            Debug.Log(camera.ScreenToWorldPoint(_mousePosition)); 
+            gridPosition = grid.WorldToCell(camera.ScreenToWorldPoint(_mousePosition));
+            if(gridPosition == previousGridPosition) 
+            {
+                return;
+            }
+            previousGridPosition = gridPosition;
+            _isValidTile = GameGrid.TryFillPosition(gridPosition.x, -gridPosition.y, tileData, out bool _displayTile);
+            previsualisationTilemap.ClearAllTiles(); 
+            if(_displayTile)
+            {
+                previsualisationTilemap.color = _isValidTile ? validColor : invalidColor;
+                previsualisationTilemap.SetTile(gridPosition, tileData.Tile); 
+            }
         }
         #endregion
     }

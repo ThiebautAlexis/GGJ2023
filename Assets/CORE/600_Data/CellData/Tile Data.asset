@@ -12,5 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73a454ddf418e36489da017f019f214b, type: 3}
   m_Name: Tile Data
   m_EditorClassIdentifier: 
-  Shape: 546
-  Tile: {fileID: 11400000, guid: 792d35ea466d3f640a997f514e13da76, type: 2}
+  Shape: 624
+  Data:
+    TopLeftState: 2
+    TopState: 0
+    TopRightState: 0
+    LeftState: 0
+    CenterState: 2
+    RightState: 0
+    BottomLeftState: 0
+    BottomState: 0
+    BottomRightState: 2
+  Tile: {fileID: 11400000, guid: 7a53881103ebf934caa8233b15dc40d0, type: 2}

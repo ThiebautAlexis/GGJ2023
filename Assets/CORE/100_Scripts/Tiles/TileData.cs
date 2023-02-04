@@ -18,10 +18,27 @@ namespace GGJ2023
         BottomRight = 1 << 9
     }
 
+    [Serializable]
+    public class CellData
+    {
+        public CellState TopLeftState = CellState.Empty; 
+        public CellState TopState = CellState.Empty; 
+        public CellState TopRightState = CellState.Empty; 
+        public CellState LeftState = CellState.Empty; 
+        public CellState CenterState = CellState.Empty; 
+        public CellState RightState = CellState.Empty; 
+        public CellState BottomLeftState = CellState.Empty; 
+        public CellState BottomState = CellState.Empty; 
+        public CellState BottomRightState = CellState.Empty; 
+    }
+
+
     [CreateAssetMenu(fileName = "Tile Data", menuName = "GGJ2023/Data/Tiles", order = 101)]
     public class TileData : ScriptableObject
     {
         public TileShape Shape = TileShape.Center;
+        public CellData Data = new CellData();
         public Tile Tile = null;
     }
+
 }
