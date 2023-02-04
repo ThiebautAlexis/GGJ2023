@@ -22,7 +22,7 @@ namespace GGJ2023
         {
             if (_context.ReadValueAsButton())
             {
-
+                GameManager.Instance.PlaceTile(); 
             }
         }
         #endregion
@@ -44,7 +44,6 @@ namespace GGJ2023
         #region Public Methods
         public void EnableControls()
         {
-            Debug.Log("Enable Controls"); 
             inputClick.Enable();
             inputClick.FindAction(MousePositionInput).performed += OnMousePosition;
             inputClick.FindAction(MouseClickInput).performed += OnMouseClick;
