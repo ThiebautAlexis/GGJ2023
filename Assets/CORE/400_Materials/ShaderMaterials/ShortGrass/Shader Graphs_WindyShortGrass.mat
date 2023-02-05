@@ -44,8 +44,8 @@ Material:
     m_Floats:
     - Vector1_1: 39.43
     - Vector1_4cc637f90af54cf2b747719586d21a3d: 1.53
-    - Vector1_674572845df64ff0b3ca6a59dfc0c63f: 3.59
-    - Vector1_d663e8332e9e4602864d9585911454df: 0.34
+    - Vector1_674572845df64ff0b3ca6a59dfc0c63f: 2.88
+    - Vector1_d663e8332e9e4602864d9585911454df: 0.83
     - Vector1_f7252ed69ae1499c949072e3126adf3a: 2.41
     - _QueueControl: 0
     - _QueueOffset: 0
