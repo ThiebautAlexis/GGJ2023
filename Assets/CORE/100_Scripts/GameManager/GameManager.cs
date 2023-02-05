@@ -68,7 +68,7 @@ namespace GGJ2023
             currentTile = deck[UnityEngine.Random.Range(0, deck.Length)]; // Get a new tile here
             if (!GameGrid.CanPlaceNextTile(currentTile))
             {
-                OnGameStopped?.Invoke();
+                StopGame(); 
             } 
             else
                 UIManager.Instance.SetPrevisualisation(currentTile.Tile.sprite);
@@ -133,6 +133,12 @@ namespace GGJ2023
         {
             OnGameStarted?.Invoke();
         }
+
+        private void StopGame()
+        {
+            Debug.Log(GameGrid.GetScore()); 
+            OnGameStopped?.Invoke();
+        }
         #endregion
 
         #region Public Method
@@ -153,6 +159,8 @@ namespace GGJ2023
             {
                 previsualisationTilemap.color = _isValidTile ? validColor : invalidColor;
                 previsualisationTilemap.SetTile(gridPosition, currentTile.Tile); 
+                // SNAP SOUND
+
             }
         }
 
