@@ -155,6 +155,9 @@ namespace GGJ2023
         private Sequence _cameraSequence;        
         public void UpdatePrevisualisation(Vector2 _mousePosition)
         {
+            if (_placingSequence.IsActive())
+                return; 
+
             if (_cameraSequence.IsActive())
                 _cameraSequence.Kill(false);
 
@@ -190,16 +193,17 @@ namespace GGJ2023
             }
         }
 
+        private Sequence _placingSequence; 
         public void PlaceTile()
         {
             if(_isValidTile) 
             {
                 Vector3Int _position = gridPosition; 
                 GameGrid.FillPosition(_position.x, -_position.y, currentTile);
-                AudioManager.Instance.PlaySFX(AudioManager.Instance.TilePoseClip); 
-                Sequence _sequence = DOTween.Sequence();
-                _sequence.Append(UIManager.Instance.RemovePrevisualisation()); 
-                _sequence.AppendCallback(() => OnSequenceValidate(_position)); 
+                AudioManager.Instance.PlaySFX(AudioManager.Instance.TilePoseClip);
+                _placingSequence = DOTween.Sequence();
+                _placingSequence.Append(UIManager.Instance.RemovePrevisualisation());
+                _placingSequence.AppendCallback(() => OnSequenceValidate(_position)); 
             }
 
             void OnSequenceValidate(Vector3Int _position)

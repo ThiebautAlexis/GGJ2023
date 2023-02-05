@@ -91,7 +91,7 @@ namespace GGJ2023
         {
             Sequence _transition = DOTween.Sequence();
             _transition.Join(inGameMenu.DOFade(0f, .75f));
-            _transition.Join(endGameMenu.DOFade(1f, 75f)); 
+            _transition.Join(endGameMenu.DOFade(1f, .75f)); 
         }
         #endregion
     }
