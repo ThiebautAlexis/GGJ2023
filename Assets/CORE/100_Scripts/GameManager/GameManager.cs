@@ -21,6 +21,9 @@ namespace GGJ2023
 
         [Header("Camera")]
         [SerializeField] private new Camera camera;
+        [SerializeField] private float topLimit;
+        [SerializeField] private float bottomLimit;
+        [SerializeField] private float speed;  
 
         [Header("Previsualisation")]
         [SerializeField] private Tilemap previsualisationTilemap;
@@ -144,9 +147,28 @@ namespace GGJ2023
         #region Public Method
         Vector3Int previousGridPosition = Vector3Int.zero; 
         Vector3Int gridPosition = Vector3Int.zero;
-        private bool _isValidTile = false; 
+        private bool _isValidTile = false;
+        private Sequence _cameraSequence;        
         public void UpdatePrevisualisation(Vector2 _mousePosition)
         {
+            if (_cameraSequence.IsActive())
+                _cameraSequence.Kill(false);
+
+            _cameraSequence = DOTween.Sequence(); 
+            if (_mousePosition.y <= (Screen.height * .15f))
+            {
+                // v = d/t => t = v/d
+                float _distance = (camera.transform.position.y - bottomLimit); 
+                if(_distance > 0)
+                    _cameraSequence.Append(camera.transform.DOLocalMoveY(bottomLimit, speed / _distance)); 
+            }
+            else if(_mousePosition.y >= Screen.height - (Screen.height * .15f ))
+            {
+                float _distance = (topLimit - camera.transform.position.y);
+                if (_distance > 0)
+                    _cameraSequence.Append(camera.transform.DOLocalMoveY(topLimit, speed / _distance));
+            }
+
             gridPosition = grid.WorldToCell(camera.ScreenToWorldPoint(_mousePosition));
             if(gridPosition == previousGridPosition) 
             {

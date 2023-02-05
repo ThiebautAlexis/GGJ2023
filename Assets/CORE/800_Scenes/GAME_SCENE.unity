@@ -922,7 +922,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1385599508574991842, guid: f5e832aafdb5634409d93fbab675d26f, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -9.17
       objectReference: {fileID: 0}
     - target: {fileID: 1385599508574991842, guid: f5e832aafdb5634409d93fbab675d26f, type: 3}
       propertyPath: m_LocalPosition.z
@@ -970,6 +970,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 725077331}
     - target: {fileID: 7237035520335488984, guid: 90b9cd5122c6d6641a48685bf4ecef28, type: 3}
+      propertyPath: speed
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7237035520335488984, guid: 90b9cd5122c6d6641a48685bf4ecef28, type: 3}
       propertyPath: camera
       value: 
       objectReference: {fileID: 519420031}
@@ -977,6 +981,10 @@ PrefabInstance:
       propertyPath: tilemap
       value: 
       objectReference: {fileID: 1473089627}
+    - target: {fileID: 7237035520335488984, guid: 90b9cd5122c6d6641a48685bf4ecef28, type: 3}
+      propertyPath: bottomLimit
+      value: -9
+      objectReference: {fileID: 0}
     - target: {fileID: 7237035520335488984, guid: 90b9cd5122c6d6641a48685bf4ecef28, type: 3}
       propertyPath: previsualisationTilemap
       value: 
