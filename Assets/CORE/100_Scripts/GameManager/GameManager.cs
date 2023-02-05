@@ -170,7 +170,8 @@ namespace GGJ2023
             {
                 Vector3Int _position = gridPosition; 
                 GameGrid.FillPosition(_position.x, -_position.y, currentTile);
-                AudioManager.Instance.PlaySFX(AudioManager.Instance.TilePoseClip, 0.75f); 
+                AudioManager.Instance.PlaySFX(AudioManager.Instance.TilePoseClip, 0.75f);
+                //Instantiate(currentTile, _position, Quaternion.Euler(Vector3.forward * currentTile.ParticleRotation));
                 Sequence _sequence = DOTween.Sequence();
                 _sequence.Append(UIManager.Instance.RemovePrevisualisation()); 
                 _sequence.AppendCallback(() => OnSequenceValidate(_position)); 
