@@ -13,7 +13,15 @@ namespace GGJ2023
 
         [Header("In Game")]
         [SerializeField] private Image previsualisationImage;
-        [SerializeField, Range(0f,1f)] private float transitionDuration = .25f; 
+        [SerializeField, Range(0f,1f)] private float transitionDuration = .25f;
+
+        [Header("Canvas")]
+        [SerializeField] private CanvasGroup mainMenu;
+        [SerializeField] private CanvasGroup inGameMenu;
+        [SerializeField] private CanvasGroup endGameMenu;
+
+        [Header("Endgame")]
+        [SerializeField] private TMPro.TextMeshProUGUI scoreText; 
         #endregion
 
 
@@ -23,8 +31,12 @@ namespace GGJ2023
             if (Instance == null)
                 Instance = this;
             else 
-                Destroy(this); 
+                Destroy(this);
+
+            GameManager.OnGameStarted += DisplayInGameMenu;
+            GameManager.OnGameStopped += DisplayEndGameMenu; 
         }
+
         #endregion
 
         #region Public Methods
@@ -61,6 +73,25 @@ namespace GGJ2023
             _sequence.Append(previsualisationImage.transform.DOLocalRotate(Vector3.forward * _targetRotation, transitionDuration).SetEase(Ease.InOutBack));
             
             return _sequence; 
+        }
+
+        public void SetScore(int _score)
+        {
+            scoreText.text = $"You made {_score} points! The animals are very pleased"; 
+        }
+
+        public void DisplayInGameMenu()
+        {
+            Sequence _transition = DOTween.Sequence();
+            _transition.Join(mainMenu.DOFade(0f, .75f));
+            _transition.Join(inGameMenu.DOFade(1f, .75f)); 
+        }
+
+        public void DisplayEndGameMenu()
+        {
+            Sequence _transition = DOTween.Sequence();
+            _transition.Join(inGameMenu.DOFade(0f, .75f));
+            _transition.Join(endGameMenu.DOFade(1f, .75f)); 
         }
         #endregion
     }

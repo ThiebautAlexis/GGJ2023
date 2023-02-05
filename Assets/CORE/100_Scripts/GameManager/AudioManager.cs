@@ -48,8 +48,8 @@ namespace GGJ2023
 
         private void OnDestroy()
         {
-            GameManager.OnGameStarted += StartInGameMusic;
-            GameManager.OnGameStopped += StartEndGameMusic;
+            GameManager.OnGameStarted -= StartInGameMusic;
+            GameManager.OnGameStopped -= StartEndGameMusic;
         }
         #endregion
 

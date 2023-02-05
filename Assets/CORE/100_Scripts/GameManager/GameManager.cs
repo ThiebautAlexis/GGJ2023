@@ -8,7 +8,7 @@ namespace GGJ2023
     public class GameManager : MonoBehaviour
     {
         #region Fields and Properties
-        public static GameManager Instance; 
+        public static GameManager Instance;
 
         [Header("Grid")]
         [SerializeField] private GridData baseGrid;
@@ -21,6 +21,9 @@ namespace GGJ2023
 
         [Header("Camera")]
         [SerializeField] private new Camera camera;
+        [SerializeField] private float topLimit;
+        [SerializeField] private float bottomLimit;
+        [SerializeField] private float speed;  
 
         [Header("Previsualisation")]
         [SerializeField] private Tilemap previsualisationTilemap;
@@ -45,7 +48,6 @@ namespace GGJ2023
         private void Start()
         {
             InitGame();
-            StartGame(); 
         }
 
         private void InitGame()
@@ -129,14 +131,19 @@ namespace GGJ2023
         //    */
         //}
 
-        private void StartGame()
+        public void StartGame()
         {
+            _cameraSequence = DOTween.Sequence();
+            float _distance = (topLimit - camera.transform.position.y);
+            if(_distance > 0)
+                _cameraSequence.Append(camera.transform.DOLocalMoveY(topLimit, speed / _distance));
+
             OnGameStarted?.Invoke();
         }
 
         private void StopGame()
         {
-            Debug.Log(GameGrid.GetScore()); 
+            UIManager.Instance.SetScore(GameGrid.GetScore()); 
             OnGameStopped?.Invoke();
         }
         #endregion
@@ -144,9 +151,31 @@ namespace GGJ2023
         #region Public Method
         Vector3Int previousGridPosition = Vector3Int.zero; 
         Vector3Int gridPosition = Vector3Int.zero;
-        private bool _isValidTile = false; 
+        private bool _isValidTile = false;
+        private Sequence _cameraSequence;        
         public void UpdatePrevisualisation(Vector2 _mousePosition)
         {
+            if (_placingSequence.IsActive())
+                return; 
+
+            if (_cameraSequence.IsActive())
+                _cameraSequence.Kill(false);
+
+            _cameraSequence = DOTween.Sequence(); 
+            if (_mousePosition.y <= (Screen.height * .15f))
+            {
+                // v = d/t => t = v/d
+                float _distance = (camera.transform.position.y - bottomLimit); 
+                if(_distance > 0)
+                    _cameraSequence.Append(camera.transform.DOLocalMoveY(bottomLimit, speed / _distance)); 
+            }
+            else if(_mousePosition.y >= Screen.height - (Screen.height * .15f ))
+            {
+                float _distance = (topLimit - camera.transform.position.y);
+                if (_distance > 0)
+                    _cameraSequence.Append(camera.transform.DOLocalMoveY(topLimit, speed / _distance));
+            }
+
             gridPosition = grid.WorldToCell(camera.ScreenToWorldPoint(_mousePosition));
             if(gridPosition == previousGridPosition) 
             {
@@ -160,21 +189,21 @@ namespace GGJ2023
                 previsualisationTilemap.color = _isValidTile ? validColor : invalidColor;
                 previsualisationTilemap.SetTile(gridPosition, currentTile.Tile);
                 // SNAP SOUND
-                AudioManager.Instance.PlaySFX(AudioManager.Instance.SnapClip, 0.2f); 
+                AudioManager.Instance.PlaySFX(AudioManager.Instance.SnapClip); 
             }
         }
 
+        private Sequence _placingSequence; 
         public void PlaceTile()
         {
             if(_isValidTile) 
             {
                 Vector3Int _position = gridPosition; 
                 GameGrid.FillPosition(_position.x, -_position.y, currentTile);
-                AudioManager.Instance.PlaySFX(AudioManager.Instance.TilePoseClip, 0.75f);
-                //Instantiate(currentTile, _position, Quaternion.Euler(Vector3.forward * currentTile.ParticleRotation));
-                Sequence _sequence = DOTween.Sequence();
-                _sequence.Append(UIManager.Instance.RemovePrevisualisation()); 
-                _sequence.AppendCallback(() => OnSequenceValidate(_position)); 
+                AudioManager.Instance.PlaySFX(AudioManager.Instance.TilePoseClip);
+                _placingSequence = DOTween.Sequence();
+                _placingSequence.Append(UIManager.Instance.RemovePrevisualisation());
+                _placingSequence.AppendCallback(() => OnSequenceValidate(_position)); 
             }
 
             void OnSequenceValidate(Vector3Int _position)
