@@ -143,6 +143,20 @@ namespace GGJ2023
             }
             */
         }
+
+        internal static bool CanPlaceNextTile(TileData currentTile)
+        {
+            bool _display; 
+            for (int y = 0; y < cells.GetLength(1); y++)
+            {
+                for (int x = 0; x < cells.GetLength(0); x++)
+                {
+                    if (TryFillPosition(x, y, currentTile, out _display))
+                        return true; 
+                }
+            }
+            return false; 
+        }
         #endregion
 
     }

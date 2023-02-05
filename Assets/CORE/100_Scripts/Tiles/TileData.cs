@@ -39,6 +39,7 @@ namespace GGJ2023
         public TileShape Shape = TileShape.Center;
         public CellData Data = new CellData();
         public Tile Tile = null;
+        public TileData RotatedTile = null; 
     }
 
 }

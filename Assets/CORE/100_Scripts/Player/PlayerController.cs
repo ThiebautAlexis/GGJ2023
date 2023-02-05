@@ -8,6 +8,7 @@ namespace GGJ2023
         #region Static 
         public static readonly string MousePositionInput = "MousePosition";
         public static readonly string MouseClickInput = "MouseClick";
+        public static readonly string SpaceBarInput = "Space";
         #endregion 
 
         #region Fields and Properties
@@ -24,6 +25,12 @@ namespace GGJ2023
             {
                 GameManager.Instance.PlaceTile(); 
             }
+        }
+
+        private void OnSpaceBarPressed(InputAction.CallbackContext _context)
+        {
+            if (_context.ReadValueAsButton())
+                GameManager.Instance.RotateTile(); 
         }
         #endregion
 
@@ -47,12 +54,14 @@ namespace GGJ2023
             inputClick.Enable();
             inputClick.FindAction(MousePositionInput).performed += OnMousePosition;
             inputClick.FindAction(MouseClickInput).performed += OnMouseClick;
+            inputClick.FindAction(SpaceBarInput).performed += OnSpaceBarPressed;
         }
 
         public void DisableControls()
         {
             inputClick.FindAction(MousePositionInput).performed -= OnMousePosition;
             inputClick.FindAction(MouseClickInput).performed -= OnMouseClick;
+            inputClick.FindAction(SpaceBarInput).performed -= OnSpaceBarPressed;
             inputClick.Disable();
         }
         #endregion 
