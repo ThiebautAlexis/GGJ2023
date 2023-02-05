@@ -17,6 +17,7 @@ namespace GGJ2023
         [SerializeField] private TileData currentTile;
 
         [SerializeField] private Tile rootTile;
+        [SerializeField] private TileData[] deck; 
 
         [Header("Camera")]
         [SerializeField] private new Camera camera;
@@ -64,7 +65,7 @@ namespace GGJ2023
 
         private void ProceedToNextTile()
         {
-            // currentTile = ; Get a new tile here
+            currentTile = deck[UnityEngine.Random.Range(0, deck.Length)]; // Get a new tile here
             if (!GameGrid.CanPlaceNextTile(currentTile))
             {
                 OnGameStopped?.Invoke();
@@ -187,6 +188,13 @@ namespace GGJ2023
 
             void ResetRotationSequence()
             {
+                _isValidTile = GameGrid.TryFillPosition(gridPosition.x, -gridPosition.y, currentTile, out bool _displayTile);
+                previsualisationTilemap.ClearAllTiles();
+                if (_displayTile)
+                {
+                    previsualisationTilemap.color = _isValidTile ? validColor : invalidColor;
+                    previsualisationTilemap.SetTile(gridPosition, currentTile.Tile);
+                }
                 rotationSequence.Kill(true);
                 rotationSequence = null; 
             }

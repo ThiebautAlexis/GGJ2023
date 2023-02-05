@@ -12,8 +12,10 @@ namespace GGJ2023
     public enum CellState
     {
         Empty = 0,
-        Root = 1,
-        Burrow = 2
+        Root,
+        Rabbits, 
+        Badgers, 
+        Foxes
     }
     #endregion
 
@@ -51,43 +53,35 @@ namespace GGJ2023
                 return false;
 
             // Top
-            if ((_tileData.Shape.HasFlag(TileShape.TopLeft) || _tileData.Shape.HasFlag(TileShape.Top) || _tileData.Shape.HasFlag(TileShape.TopRight)) &&
-                (_yCenterIndex - 1 < 0 || (_yCenterIndex -1 >= 0 && cells[_xCenterIndex, _yCenterIndex - 1] != CellState.Empty)))
+            if (_tileData.Shape.HasFlag(TileShape.Top) && (_yCenterIndex - 1 < 0 || cells[_xCenterIndex, _yCenterIndex - 1] != CellState.Empty))
                 return false; 
 
             // Bottom
-            if ((_tileData.Shape.HasFlag(TileShape.BottomLeft) || _tileData.Shape.HasFlag(TileShape.Bottom) || _tileData.Shape.HasFlag(TileShape.BottomRight)) &&
-               (_yCenterIndex + 1 >= cells.GetLength(1) || cells[_xCenterIndex, _yCenterIndex + 1] != CellState.Empty))
+            if (_tileData.Shape.HasFlag(TileShape.Bottom) && (_yCenterIndex + 1 >= cells.GetLength(1) || cells[_xCenterIndex, _yCenterIndex + 1] != CellState.Empty))
                 return false;
 
             // Left 
-            if ((_tileData.Shape.HasFlag(TileShape.BottomLeft) || _tileData.Shape.HasFlag(TileShape.Left) || _tileData.Shape.HasFlag(TileShape.TopLeft)) &&
-                (_xCenterIndex - 1 < 0 || cells[_xCenterIndex - 1, _yCenterIndex] != CellState.Empty))
+            if ( _tileData.Shape.HasFlag(TileShape.Left) && (_xCenterIndex - 1 < 0 || cells[_xCenterIndex - 1, _yCenterIndex] != CellState.Empty))
                 return false;
 
             // Right 
-            if ((_tileData.Shape.HasFlag(TileShape.BottomRight) || _tileData.Shape.HasFlag(TileShape.Right) || _tileData.Shape.HasFlag(TileShape.TopRight)) &&
-                (_xCenterIndex +1  >= cells.GetLength(0) || cells[_xCenterIndex + 1, _yCenterIndex] != CellState.Empty))
+            if (_tileData.Shape.HasFlag(TileShape.Right) && (_xCenterIndex +1  >= cells.GetLength(0) || cells[_xCenterIndex + 1, _yCenterIndex] != CellState.Empty))
                 return false;
 
             // Top Left
-            if (_tileData.Shape.HasFlag(TileShape.TopLeft) &&
-                _yCenterIndex - 1 >= 0 && _xCenterIndex - 1 >= 0 && cells[_xCenterIndex - 1, _yCenterIndex - 1] != CellState.Empty)
+            if (_tileData.Shape.HasFlag(TileShape.TopLeft) && (_yCenterIndex - 1 < 0 || cells[_xCenterIndex - 1, _yCenterIndex - 1] != CellState.Empty))
                 return false;
 
             // Bottom Left
-            if (_tileData.Shape.HasFlag(TileShape.BottomLeft) &&
-                _yCenterIndex + 1 <= cells.GetLength(1) && _xCenterIndex - 1 >= 0 && cells[_xCenterIndex - 1, _yCenterIndex + 1] != CellState.Empty)
+            if (_tileData.Shape.HasFlag(TileShape.BottomLeft) && _yCenterIndex + 1 <= cells.GetLength(1) && _xCenterIndex - 1 >= 0 && cells[_xCenterIndex - 1, _yCenterIndex + 1] != CellState.Empty)
                 return false;
 
             // Top Right
-            if (_tileData.Shape.HasFlag(TileShape.TopRight) &&
-               _yCenterIndex - 1 >= 0 && _xCenterIndex + 1 <= cells.GetLength(0) && cells[_xCenterIndex + 1, _yCenterIndex - 1] != CellState.Empty)
+            if (_tileData.Shape.HasFlag(TileShape.TopRight) && (_yCenterIndex - 1 < 0 || (_xCenterIndex + 1 <= cells.GetLength(0) && cells[_xCenterIndex + 1, _yCenterIndex - 1] != CellState.Empty)))
                 return false;
 
             // Bottom Right
-            if (_tileData.Shape.HasFlag(TileShape.BottomRight) &&
-               _yCenterIndex + 1 <= cells.GetLength(1) && _xCenterIndex + 1 <= cells.GetLength(0) && cells[_xCenterIndex + 1, _yCenterIndex + 1] != CellState.Empty)
+            if (_tileData.Shape.HasFlag(TileShape.BottomRight) && _yCenterIndex + 1 <= cells.GetLength(1) && _xCenterIndex + 1 <= cells.GetLength(0) && cells[_xCenterIndex + 1, _yCenterIndex + 1] != CellState.Empty)
                 return false;
 
             if ((_tileData.Shape.HasFlag(TileShape.TopLeft) && CheckNeighbourTiles(_xCenterIndex - 1, _yCenterIndex - 1, _tileData.Data.TopLeftState)) ||
@@ -155,6 +149,7 @@ namespace GGJ2023
                         return true; 
                 }
             }
+
             return false; 
         }
         #endregion
