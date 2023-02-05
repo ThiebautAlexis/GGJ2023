@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -147,8 +148,15 @@ namespace GGJ2023
             if(_isValidTile) 
             {
                 GameGrid.FillPosition(gridPosition.x, -gridPosition.y, tileData);
-                tilemap.SetTile(gridPosition, tileData.Tile); 
-                previsualisationTilemap.ClearAllTiles(); 
+                Sequence _sequence = DOTween.Sequence();
+
+                _sequence.AppendCallback(OnSequenceValidate); 
+            }
+
+            void OnSequenceValidate()
+            {
+                tilemap.SetTile(gridPosition, tileData.Tile);
+                previsualisationTilemap.ClearAllTiles();
             }
         }
         #endregion

@@ -21,6 +21,7 @@ namespace GGJ2023
     {
         #region Fields and properties
         private static CellState[,] cells;
+        //private static int[,] multipliers; 
         public static CellState[,] Cells => cells; 
         #endregion
 
@@ -31,7 +32,8 @@ namespace GGJ2023
         #region Public Methods
         public static void InitGrid(CellState[,] _baseCells)
         {
-            cells = _baseCells; 
+            cells = _baseCells;
+            //multipliers= new int[cells.GetLength(0), cells.GetLength(1)];
         }
 
         public static bool TryFillPosition(int _xCenterIndex, int _yCenterIndex, TileData _tileData, out bool _displayTile)
@@ -130,7 +132,7 @@ namespace GGJ2023
                 cells[_x, _y + 1] = _data.Data.BottomState;
             if (_data.Shape.HasFlag(TileShape.BottomRight))
                 cells[_x + 1, _y + 1] = _data.Data.TopLeftState;
-
+            /*
             for (int i = 0; i < cells.GetLength(1); i++)
             {
                 for (int j = 0; j < cells.GetLength(0); j++)
@@ -139,6 +141,7 @@ namespace GGJ2023
                 }
                 Debug.Log("---"); 
             }
+            */
         }
         #endregion
 
