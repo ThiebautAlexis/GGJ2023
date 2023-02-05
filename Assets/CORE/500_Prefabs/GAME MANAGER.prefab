@@ -272,4 +272,4 @@ MonoBehaviour:
   sfxSource: {fileID: 8340139408822640481, guid: 8cf5316e440403d4aad27a498d12f384, type: 3}
   snapClip: {fileID: 8300000, guid: 360e530e397039746bab30ab338a6242, type: 3}
   tilePoseClip: {fileID: 8300000, guid: f07871da24b02b34cb464b52d830b80c, type: 3}
-  drawClip: {fileID: 8300000, guid: 387ad7e53d4845d48b0afdb9262e4538, type: 3}
+  drawClip: {fileID: 8300000, guid: 864b0f12c9e37734bb4e9fa4ea32a2d3, type: 3}
