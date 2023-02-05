@@ -240,22 +240,22 @@ Tilemap:
   m_TileMatrixArray:
   - m_RefCount: 0
     m_Data:
-      e00: 0
+      e00: 3.3015916e-12
       e01: 0
-      e02: 8.081546e-39
-      e03: 8.081546e-39
-      e10: 0
+      e02: 1.8295932e-19
+      e03: 1.8295932e-19
+      e10: 8.1e-43
       e11: 0
-      e12: 8.53e-43
-      e13: 8.53e-43
+      e12: 8.07e-43
+      e13: 8.07e-43
       e20: 1.0901981e+32
       e21: 1e-45
-      e22: -0.0000000016371091
-      e23: 1.0848308e-19
+      e22: -6.84008e-29
+      e23: 3.57028e-40
       e30: 4.5904e-41
       e31: 0
-      e32: 8.53e-43
-      e33: 8.58e-43
+      e32: 8.07e-43
+      e33: 8.11e-43
   m_TileColorArray:
   - m_RefCount: 0
     m_Data: {r: NaN, g: NaN, b: NaN, a: NaN}
@@ -977,6 +977,22 @@ PrefabInstance:
       propertyPath: tilemap
       value: 
       objectReference: {fileID: 1473089627}
+    - target: {fileID: 7237035520335488984, guid: 90b9cd5122c6d6641a48685bf4ecef28, type: 3}
+      propertyPath: currentTile
+      value: 
+      objectReference: {fileID: 11400000, guid: 51be915b69b8d7c469c1df7546a4561c, type: 2}
+    - target: {fileID: 7237035520335488984, guid: 90b9cd5122c6d6641a48685bf4ecef28, type: 3}
+      propertyPath: deck.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7237035520335488984, guid: 90b9cd5122c6d6641a48685bf4ecef28, type: 3}
+      propertyPath: deck.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 9153abf8c80c23d418c3722deb6da577, type: 2}
+    - target: {fileID: 7237035520335488984, guid: 90b9cd5122c6d6641a48685bf4ecef28, type: 3}
+      propertyPath: deck.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: 51be915b69b8d7c469c1df7546a4561c, type: 2}
     - target: {fileID: 7237035520335488984, guid: 90b9cd5122c6d6641a48685bf4ecef28, type: 3}
       propertyPath: previsualisationTilemap
       value: 

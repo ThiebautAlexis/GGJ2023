@@ -181,7 +181,7 @@ MonoBehaviour:
   currentTile: {fileID: 11400000, guid: cc862eee3f8a0d74bb44830b666dfa15, type: 2}
   rootTile: {fileID: 11400000, guid: 34d4ee29d39467242a6c545ff7a6fec8, type: 2}
   deck:
-  - {fileID: 11400000, guid: cc862eee3f8a0d74bb44830b666dfa15, type: 2}
+  - {fileID: 11400000, guid: a691956b44e2fc84fbabd8ddce93cb85, type: 2}
   camera: {fileID: 0}
   previsualisationTilemap: {fileID: 0}
   validColor: {r: 0.12130821, g: 1, b: 0, a: 0.48235294}

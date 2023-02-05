@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 73a454ddf418e36489da017f019f214b, type: 3}
+  m_Name: E1D2_270
+  m_EditorClassIdentifier: 
+  Shape: 112
+  Data:
+    TopLeftState: 0
+    TopState: 0
+    TopRightState: 0
+    LeftState: 3
+    CenterState: 4
+    RightState: 4
+    BottomLeftState: 0
+    BottomState: 0
+    BottomRightState: 0
+  Tile: {fileID: 11400000, guid: cc4d93629cf454544b06a282fbb1783a, type: 2}
+  RotatedTile: {fileID: 11400000, guid: 51be915b69b8d7c469c1df7546a4561c, type: 2}
