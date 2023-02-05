@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Shader Graphs_WindyGrass
+  m_Name: Shader Graphs_WindyShortGrass
   m_Shader: {fileID: -6465566751694194690, guid: 7d5600649607a114294fa8624d2e1f21, type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords: []
@@ -42,20 +42,20 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - Vector1_1: 1
-    - Vector1_4cc637f90af54cf2b747719586d21a3d: 0
-    - Vector1_674572845df64ff0b3ca6a59dfc0c63f: 3.36
-    - Vector1_d663e8332e9e4602864d9585911454df: 0.4
-    - Vector1_f7252ed69ae1499c949072e3126adf3a: 1.99
+    - Vector1_1: 39.43
+    - Vector1_4cc637f90af54cf2b747719586d21a3d: 1.53
+    - Vector1_674572845df64ff0b3ca6a59dfc0c63f: 3.59
+    - Vector1_d663e8332e9e4602864d9585911454df: 0.34
+    - Vector1_f7252ed69ae1499c949072e3126adf3a: 2.41
     - _QueueControl: 0
     - _QueueOffset: 0
     - _RotateWigle: 0
     - _RotateWindArea: 0
     - _WiglePower: 0.5
-    - _WigleSpeed: 0
+    - _WigleSpeed: 0.3
     m_Colors:
     - Vector2_f4cfc9c829534d34a9755bbfa611d00c: {r: 1, g: 1, b: 0, a: 0}
-    - _WigleDirection: {r: 0, g: 0, b: 0, a: 0}
+    - _WigleDirection: {r: 1, g: 1, b: 0, a: 0}
   m_BuildTextureStacks: []
 --- !u!114 &129849041343537753
 MonoBehaviour:
