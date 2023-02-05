@@ -32,6 +32,7 @@ namespace GGJ2023
         {
             previsualisationImage.sprite = _tileSprite; 
             previsualisationImage.enabled= true;
+            AudioManager.Instance.PlaySFX(AudioManager.Instance.DrawClip); 
             Sequence _sequence = DOTween.Sequence();
             _sequence.Join(previsualisationImage.transform.DOLocalMoveX(0f, transitionDuration).SetEase(Ease.InOutBack));
             _sequence.Join(previsualisationImage.DOFade(1f, transitionDuration).SetEase(Ease.InSine));

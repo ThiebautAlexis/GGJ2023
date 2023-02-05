@@ -158,9 +158,9 @@ namespace GGJ2023
             if(_displayTile)
             {
                 previsualisationTilemap.color = _isValidTile ? validColor : invalidColor;
-                previsualisationTilemap.SetTile(gridPosition, currentTile.Tile); 
+                previsualisationTilemap.SetTile(gridPosition, currentTile.Tile);
                 // SNAP SOUND
-
+                AudioManager.Instance.PlaySFX(AudioManager.Instance.SnapClip); 
             }
         }
 
@@ -170,6 +170,7 @@ namespace GGJ2023
             {
                 Vector3Int _position = gridPosition; 
                 GameGrid.FillPosition(_position.x, -_position.y, currentTile);
+                AudioManager.Instance.PlaySFX(AudioManager.Instance.TilePoseClip); 
                 Sequence _sequence = DOTween.Sequence();
                 _sequence.Append(UIManager.Instance.RemovePrevisualisation()); 
                 _sequence.AppendCallback(() => OnSequenceValidate(_position)); 
