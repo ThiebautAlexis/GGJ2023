@@ -32,11 +32,15 @@ namespace GGJ2023
             if (_context.ReadValueAsButton())
                 GameManager.Instance.RotateTile(); 
         }
+        private void ClickStartGame(InputAction.CallbackContext _context) => GameManager.Instance.StartGame(); 
         #endregion
 
         #region Private Methods
         private void Awake()
         {
+            inputClick.Enable();
+            inputClick.FindAction(MouseClickInput).performed += ClickStartGame;
+
             GameManager.OnGameStarted += EnableControls;
             GameManager.OnGameStopped += DisableControls; 
         }
@@ -51,7 +55,7 @@ namespace GGJ2023
         #region Public Methods
         public void EnableControls()
         {
-            inputClick.Enable();
+            inputClick.FindAction(MouseClickInput).performed -= ClickStartGame;
             inputClick.FindAction(MousePositionInput).performed += OnMousePosition;
             inputClick.FindAction(MouseClickInput).performed += OnMouseClick;
             inputClick.FindAction(SpaceBarInput).performed += OnSpaceBarPressed;

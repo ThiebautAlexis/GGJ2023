@@ -8,7 +8,7 @@ namespace GGJ2023
     public class GameManager : MonoBehaviour
     {
         #region Fields and Properties
-        public static GameManager Instance; 
+        public static GameManager Instance;
 
         [Header("Grid")]
         [SerializeField] private GridData baseGrid;
@@ -48,7 +48,6 @@ namespace GGJ2023
         private void Start()
         {
             InitGame();
-            StartGame(); 
         }
 
         private void InitGame()
@@ -132,14 +131,19 @@ namespace GGJ2023
         //    */
         //}
 
-        private void StartGame()
+        public void StartGame()
         {
+            _cameraSequence = DOTween.Sequence();
+            float _distance = (topLimit - camera.transform.position.y);
+            if(_distance > 0)
+                _cameraSequence.Append(camera.transform.DOLocalMoveY(topLimit, speed / _distance));
+
             OnGameStarted?.Invoke();
         }
 
         private void StopGame()
         {
-            Debug.Log(GameGrid.GetScore()); 
+            UIManager.Instance.SetScore(GameGrid.GetScore()); 
             OnGameStopped?.Invoke();
         }
         #endregion
