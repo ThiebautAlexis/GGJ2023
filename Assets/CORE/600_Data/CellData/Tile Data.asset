@@ -24,3 +24,4 @@ MonoBehaviour:
     BottomState: 2
     BottomRightState: 2
   Tile: {fileID: 11400000, guid: 7a53881103ebf934caa8233b15dc40d0, type: 2}
+  RotatedTile: {fileID: 0}

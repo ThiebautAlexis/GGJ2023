@@ -218,7 +218,23 @@ Tilemap:
   m_TileAssetArray:
   - m_RefCount: 0
     m_Data: {fileID: 0}
+  - m_RefCount: 0
+    m_Data: {fileID: 0}
+  - m_RefCount: 0
+    m_Data: {fileID: 0}
+  - m_RefCount: 0
+    m_Data: {fileID: 0}
+  - m_RefCount: 0
+    m_Data: {fileID: 0}
   m_TileSpriteArray:
+  - m_RefCount: 0
+    m_Data: {fileID: 0}
+  - m_RefCount: 0
+    m_Data: {fileID: 0}
+  - m_RefCount: 0
+    m_Data: {fileID: 0}
+  - m_RefCount: 0
+    m_Data: {fileID: 0}
   - m_RefCount: 0
     m_Data: {fileID: 0}
   m_TileMatrixArray:
@@ -226,20 +242,20 @@ Tilemap:
     m_Data:
       e00: 0
       e01: 0
-      e02: 1.8295932e-19
-      e03: 1.8295932e-19
+      e02: 8.081546e-39
+      e03: 8.081546e-39
       e10: 0
       e11: 0
-      e12: 6.35e-43
-      e13: 6.35e-43
-      e20: -2.6470264e-22
+      e12: 8.53e-43
+      e13: 8.53e-43
+      e20: 1.0901981e+32
       e21: 1e-45
-      e22: -5.113254e-19
-      e23: 8.619344e+9
-      e30: 4.5905e-41
+      e22: -0.0000000016371091
+      e23: 1.0848308e-19
+      e30: 4.5904e-41
       e31: 0
-      e32: 6.35e-43
-      e33: 6.38e-43
+      e32: 8.53e-43
+      e33: 8.58e-43
   m_TileColorArray:
   - m_RefCount: 0
     m_Data: {r: NaN, g: NaN, b: NaN, a: NaN}
@@ -364,7 +380,7 @@ MonoBehaviour:
   baseGrid: {fileID: 11400000, guid: 3cec0f4e55456cc4eba7fad89c09bb0a, type: 2}
   grid: {fileID: 725077331}
   tilemap: {fileID: 1473089627}
-  currentTile: {fileID: 11400000, guid: 7555685214f8fc348833b6c063411517, type: 2}
+  currentTile: {fileID: 11400000, guid: cc862eee3f8a0d74bb44830b666dfa15, type: 2}
   rootTile: {fileID: 11400000, guid: 34d4ee29d39467242a6c545ff7a6fec8, type: 2}
   camera: {fileID: 519420031}
   previsualisationTilemap: {fileID: 32458020}
