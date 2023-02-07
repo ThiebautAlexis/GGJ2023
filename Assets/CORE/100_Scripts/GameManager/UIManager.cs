@@ -8,6 +8,8 @@ namespace GGJ2023
 {
     public class UIManager : MonoBehaviour
     {
+        private static readonly string scoreTextValue = "You made {0} Points!"; 
+
         #region Fields and Properties
         public static UIManager Instance = null;
 
@@ -33,6 +35,7 @@ namespace GGJ2023
             else 
                 Destroy(this);
 
+            GameManager.OnGameReady += HideMainMenu; 
             GameManager.OnGameStarted += DisplayInGameMenu;
             GameManager.OnGameStopped += DisplayEndGameMenu; 
         }
@@ -65,25 +68,29 @@ namespace GGJ2023
             return _sequence; 
         }
 
-        public Sequence RotatePrevisualisation()
+        public void ResetPrevisualisationRotation() => previsualisationImage.transform.localRotation = Quaternion.identity; 
+
+        public Sequence RotatePrevisualisation(int _rotation)
         {
             Sequence _sequence = DOTween.Sequence();
-            float _targetRotation = previsualisationImage.transform.localEulerAngles.z + 90;
-            if (_targetRotation >= 360) _targetRotation = 0f; 
-            _sequence.Append(previsualisationImage.transform.DOLocalRotate(Vector3.forward * _targetRotation, transitionDuration).SetEase(Ease.InOutBack));
+            _sequence.Append(previsualisationImage.transform.DOLocalRotate(Vector3.forward * _rotation, transitionDuration).SetEase(Ease.InOutBack));
             
             return _sequence; 
         }
 
         public void SetScore(int _score)
         {
-            scoreText.text = $"You made {_score} points! The animals are very pleased"; 
+            scoreText.text = string.Format(scoreTextValue, _score); 
         }
 
-        public void DisplayInGameMenu()
+        private void HideMainMenu()
         {
             Sequence _transition = DOTween.Sequence();
             _transition.Join(mainMenu.DOFade(0f, .75f));
+        }
+        public void DisplayInGameMenu()
+        {
+            Sequence _transition = DOTween.Sequence();
             _transition.Join(inGameMenu.DOFade(1f, .75f)); 
         }
 

@@ -35,171 +35,186 @@ namespace GGJ2023
             multipliers= new int[cells.GetLength(0), cells.GetLength(1)];
         }
 
-        public static bool TryFillPosition(int _xCenterIndex, int _yCenterIndex, TileData _tileData, out bool _displayTile)
+        public static bool TryFillPosition(int _xCenterIndex, int _yCenterIndex, int _rotation, TileData _tileData, out bool _displayTile)
         {
             if (_xCenterIndex < 0 || _xCenterIndex >= cells.GetLength(0) || _yCenterIndex < 0 || _yCenterIndex >= cells.GetLength(1))
             {
                 _displayTile = false; 
                 return false; 
             }
-            _displayTile = true; 
+            _displayTile = true;
+            TileShape _tileShape = _tileData.GetShape(_rotation);
 
             // Center 
-            if (_tileData.Shape.HasFlag(TileShape.Center) &&
+            if (_tileShape.HasFlag(TileShape.Center) &&
                 cells[_xCenterIndex, _yCenterIndex] != CellState.Empty)
                 return false;
 
             // Top
-            if (_tileData.Shape.HasFlag(TileShape.Top) && (_yCenterIndex - 1 < 0 || cells[_xCenterIndex, _yCenterIndex - 1] != CellState.Empty))
+            if (_tileShape.HasFlag(TileShape.Top) && 
+                (_yCenterIndex - 1 < 0 || cells[_xCenterIndex, _yCenterIndex - 1] != CellState.Empty))
                 return false; 
 
             // Bottom
-            if (_tileData.Shape.HasFlag(TileShape.Bottom) && (_yCenterIndex + 1 >= cells.GetLength(1) || cells[_xCenterIndex, _yCenterIndex + 1] != CellState.Empty))
+            if (_tileShape.HasFlag(TileShape.Bottom) && 
+                (_yCenterIndex + 1 >= cells.GetLength(1) || cells[_xCenterIndex, _yCenterIndex + 1] != CellState.Empty))
                 return false;
 
             // Left 
-            if ( _tileData.Shape.HasFlag(TileShape.Left) && (_xCenterIndex - 1 < 0 || cells[_xCenterIndex - 1, _yCenterIndex] != CellState.Empty))
+            if (_tileShape.HasFlag(TileShape.Left) && 
+                (_xCenterIndex - 1 < 0 || cells[_xCenterIndex - 1, _yCenterIndex] != CellState.Empty))
                 return false;
 
             // Right 
-            if (_tileData.Shape.HasFlag(TileShape.Right) && (_xCenterIndex +1  >= cells.GetLength(0) || cells[_xCenterIndex + 1, _yCenterIndex] != CellState.Empty))
+            if (_tileShape.HasFlag(TileShape.Right) && 
+                (_xCenterIndex +1  >= cells.GetLength(0) || cells[_xCenterIndex + 1, _yCenterIndex] != CellState.Empty))
                 return false;
 
             // Top Left
-            if (_tileData.Shape.HasFlag(TileShape.TopLeft) && (_yCenterIndex - 1 < 0 || cells[_xCenterIndex - 1, _yCenterIndex - 1] != CellState.Empty))
+            if (_tileShape.HasFlag(TileShape.TopLeft) && 
+                (_yCenterIndex - 1 < 0 || cells[_xCenterIndex - 1, _yCenterIndex - 1] != CellState.Empty))
                 return false;
 
             // Bottom Left
-            if (_tileData.Shape.HasFlag(TileShape.BottomLeft) && _yCenterIndex + 1 <= cells.GetLength(1) && _xCenterIndex - 1 >= 0 && cells[_xCenterIndex - 1, _yCenterIndex + 1] != CellState.Empty)
+            if (_tileShape.HasFlag(TileShape.BottomLeft) && 
+                (_yCenterIndex + 1 <= cells.GetLength(1) && _xCenterIndex - 1 >= 0 && cells[_xCenterIndex - 1, _yCenterIndex + 1] != CellState.Empty))
                 return false;
 
             // Top Right
-            if (_tileData.Shape.HasFlag(TileShape.TopRight) && (_yCenterIndex - 1 < 0 || (_xCenterIndex + 1 <= cells.GetLength(0) && cells[_xCenterIndex + 1, _yCenterIndex - 1] != CellState.Empty)))
+            if (_tileShape.HasFlag(TileShape.TopRight) && 
+                (_yCenterIndex - 1 < 0 || (_xCenterIndex + 1 <= cells.GetLength(0) && cells[_xCenterIndex + 1, _yCenterIndex - 1] != CellState.Empty)))
                 return false;
 
             // Bottom Right
-            if (_tileData.Shape.HasFlag(TileShape.BottomRight) && _yCenterIndex + 1 <= cells.GetLength(1) && _xCenterIndex + 1 <= cells.GetLength(0) && cells[_xCenterIndex + 1, _yCenterIndex + 1] != CellState.Empty)
+            if (_tileShape.HasFlag(TileShape.BottomRight) && 
+                (_yCenterIndex + 1 <= cells.GetLength(1) && _xCenterIndex + 1 <= cells.GetLength(0) && cells[_xCenterIndex + 1, _yCenterIndex + 1] != CellState.Empty))
                 return false;
 
-            if ((_tileData.Shape.HasFlag(TileShape.TopLeft) && CheckNeighbourTiles(_xCenterIndex - 1, _yCenterIndex - 1, _tileData.Data.TopLeftState)) ||
-                (_tileData.Shape.HasFlag(TileShape.Top) && CheckNeighbourTiles(_xCenterIndex, _yCenterIndex - 1, _tileData.Data.TopState)) ||
-                (_tileData.Shape.HasFlag(TileShape.TopRight) && CheckNeighbourTiles(_xCenterIndex + 1, _yCenterIndex - 1, _tileData.Data.TopRightState)) ||
-                (_tileData.Shape.HasFlag(TileShape.Left) && CheckNeighbourTiles(_xCenterIndex - 1, _yCenterIndex, _tileData.Data.LeftState)) ||
-                (_tileData.Shape.HasFlag(TileShape.Center) && CheckNeighbourTiles(_xCenterIndex, _yCenterIndex, _tileData.Data.CenterState)) ||
-                (_tileData.Shape.HasFlag(TileShape.Right) && CheckNeighbourTiles(_xCenterIndex + 1, _yCenterIndex, _tileData.Data.RightState)) ||
-                (_tileData.Shape.HasFlag(TileShape.BottomLeft) && CheckNeighbourTiles(_xCenterIndex - 1, _yCenterIndex + 1, _tileData.Data.BottomLeftState)) ||
-                (_tileData.Shape.HasFlag(TileShape.Bottom) && CheckNeighbourTiles(_xCenterIndex, _yCenterIndex + 1, _tileData.Data.BottomState)) ||
-                (_tileData.Shape.HasFlag(TileShape.BottomRight) && CheckNeighbourTiles(_xCenterIndex + 1, _yCenterIndex + 1, _tileData.Data.BottomRightState)) )
+            if ((_tileShape.HasFlag(TileShape.TopLeft) && CheckNeighbourTiles(_xCenterIndex - 1, _yCenterIndex - 1, _tileData.GetCellState(TileShape.TopLeft, _rotation))) ||
+                (_tileShape.HasFlag(TileShape.Top) && CheckNeighbourTiles(_xCenterIndex, _yCenterIndex - 1, _tileData.GetCellState(TileShape.Top, _rotation))) ||
+                (_tileShape.HasFlag(TileShape.TopRight) && CheckNeighbourTiles(_xCenterIndex + 1, _yCenterIndex - 1, _tileData.GetCellState(TileShape.TopRight, _rotation))) ||
+                (_tileShape.HasFlag(TileShape.Left) && CheckNeighbourTiles(_xCenterIndex - 1, _yCenterIndex, _tileData.GetCellState(TileShape.Left, _rotation))) ||
+                (_tileShape.HasFlag(TileShape.Center) && CheckNeighbourTiles(_xCenterIndex, _yCenterIndex, _tileData.GetCellState(TileShape.Center, _rotation))) ||
+                (_tileShape.HasFlag(TileShape.Right) && CheckNeighbourTiles(_xCenterIndex + 1, _yCenterIndex, _tileData.GetCellState(TileShape.Right, _rotation))) ||
+                (_tileShape.HasFlag(TileShape.BottomLeft) && CheckNeighbourTiles(_xCenterIndex - 1, _yCenterIndex + 1, _tileData.GetCellState(TileShape.BottomLeft, _rotation))) ||
+                (_tileShape.HasFlag(TileShape.Bottom) && CheckNeighbourTiles(_xCenterIndex, _yCenterIndex + 1, _tileData.GetCellState(TileShape.Bottom, _rotation))) ||
+                (_tileShape.HasFlag(TileShape.BottomRight) && CheckNeighbourTiles(_xCenterIndex + 1, _yCenterIndex + 1, _tileData.GetCellState(TileShape.BottomRight, _rotation))))
+
+            {
                 return true;
+            }
 
             return false;
         }
 
         private static bool CheckNeighbourTiles(int _x, int _y, CellState _validState)
         {
-            return ((_x - 1 >= 0 && _y < cells.GetLength(1) && (cells[_x - 1, _y] == CellState.Root || cells[_x - 1, _y] == _validState)) ||
+            return ((_x - 1 >= 0 && (cells[_x - 1, _y] == CellState.Root || cells[_x - 1, _y] == _validState)) ||
                     (_y - 1 >= 0 && (cells[_x, _y - 1] == CellState.Root || cells[_x, _y - 1] == _validState)) ||
                     (_x + 1 < cells.GetLength(0) && (cells[_x + 1, _y] == CellState.Root || cells[_x+1,_y] == _validState)) ||
                     (_y + 1 < cells.GetLength(1) && (cells[_x, _y + 1] == CellState.Root || cells[_x,_y+1] == _validState)) );
         }
 
-        public static void FillPosition(int _x, int _y, TileData _data)
+        public static void FillPosition(int _x, int _y, TileData _data, int _rotation)
         {
-            if (_data.Shape.HasFlag(TileShape.TopLeft))
+            TileShape _Shape = _data.GetShape(_rotation);
+
+            if (_Shape.HasFlag(TileShape.TopLeft))
             {
-                cells[_x - 1, _y - 1] = _data.Data.TopLeftState;
+                cells[_x - 1, _y - 1] = _data.GetCellState(TileShape.TopLeft, _rotation);
                 multipliers[_x - 1, _y - 1] = 1;
             }
-            if (_data.Shape.HasFlag(TileShape.Top))
+            if (_Shape.HasFlag(TileShape.Top))
             {
-                cells[_x, _y - 1] = _data.Data.TopState;
+                cells[_x, _y - 1] = _data.GetCellState(TileShape.Top, _rotation);
                 multipliers[_x, _y - 1] = 1;
             }
-            if (_data.Shape.HasFlag(TileShape.TopRight))
+            if (_Shape.HasFlag(TileShape.TopRight))
             {
-                cells[_x + 1, _y - 1] = _data.Data.TopRightState;
+                cells[_x + 1, _y - 1] = _data.GetCellState(TileShape.TopRight, _rotation);
                 multipliers[_x + 1, _y - 1] = 1;
             }
-            if (_data.Shape.HasFlag(TileShape.Left))
+            if (_Shape.HasFlag(TileShape.Left))
             {
-                cells[_x - 1, _y] = _data.Data.LeftState;
+                cells[_x - 1, _y] = _data.GetCellState(TileShape.Left, _rotation);
                 multipliers[_x - 1, _y] = 1;
             }
-            if (_data.Shape.HasFlag(TileShape.Center))
+            if (_Shape.HasFlag(TileShape.Center))
             {
-                cells[_x, _y] = _data.Data.CenterState;
+                cells[_x, _y] = _data.GetCellState(TileShape.Center, _rotation);
                 multipliers[_x, _y] = 1;
             }
-            if (_data.Shape.HasFlag(TileShape.Right))
+            if (_Shape.HasFlag(TileShape.Right))
             {
-                cells[_x + 1, _y] = _data.Data.RightState;
+                cells[_x + 1, _y] = _data.GetCellState(TileShape.Right, _rotation);
                 multipliers[_x + 1, _y] = 1;
             }
-            if (_data.Shape.HasFlag(TileShape.BottomLeft))
+            if (_Shape.HasFlag(TileShape.BottomLeft))
             {
-                cells[_x - 1, _y + 1] = _data.Data.BottomLeftState;
+                cells[_x - 1, _y + 1] = _data.GetCellState(TileShape.BottomLeft, _rotation);
                 multipliers[_x - 1, _y + 1] = 1;
             }
-            if (_data.Shape.HasFlag(TileShape.Bottom))
+            if (_Shape.HasFlag(TileShape.Bottom))
             {
-                cells[_x, _y + 1] = _data.Data.BottomState;
+                cells[_x, _y + 1] = _data.GetCellState(TileShape.Bottom, _rotation);
                 multipliers[_x, _y + 1] = 1;
             }
-            if (_data.Shape.HasFlag(TileShape.BottomRight))
+            if (_Shape.HasFlag(TileShape.BottomRight))
             {
-                cells[_x + 1, _y + 1] = _data.Data.TopLeftState;
+                cells[_x + 1, _y + 1] = _data.GetCellState(TileShape.BottomRight, _rotation);
                 multipliers[_x + 1, _y + 1] = 1;
             }
 
-            UpdateScore(_data, _x, _y, CellState.Rabbits);
-            UpdateScore(_data, _x, _y, CellState.Badgers);
-            UpdateScore(_data, _x, _y, CellState.Foxes);
+            UpdateScore(_data, _x, _y, _rotation, CellState.Rabbits);
+            UpdateScore(_data, _x, _y, _rotation, CellState.Badgers);
+            UpdateScore(_data, _x, _y, _rotation, CellState.Foxes);
         }
 
-        private static void UpdateScore(TileData _data, int _x, int _y, CellState _state)
+        private static void UpdateScore(TileData _data, int _x, int _y, int _rotation, CellState _state)
         {
             List<CellScoreData> frontier = new List<CellScoreData>();
-            if (_data.Shape.HasFlag(TileShape.TopLeft) && _data.Data.TopLeftState == _state)
+            TileShape _shape = _data.GetShape(_rotation); 
+            if (_shape.HasFlag(TileShape.TopLeft) && _data.GetCellState(TileShape.TopLeft, _rotation) == _state)
             {
                 CellScoreData _scoreData = new CellScoreData() { Score = multipliers[_x - 1, _y - 1], X = _x - 1, Y = _y - 1 };
                 frontier.Add(_scoreData); 
             }
-            if (_data.Shape.HasFlag(TileShape.Top) && _data.Data.TopState == _state)
+            if (_shape.HasFlag(TileShape.Top) && _data.GetCellState(TileShape.Top, _rotation) == _state)
             {
                 CellScoreData _scoreData = new CellScoreData() { Score = multipliers[_x, _y - 1], X = _x, Y = _y - 1 };
                 frontier.Add(_scoreData);
             }
-            if (_data.Shape.HasFlag(TileShape.TopRight) && _data.Data.TopRightState == _state)
+            if (_shape.HasFlag(TileShape.TopRight) && _data.GetCellState(TileShape.TopRight, _rotation) == _state)
             {
                 CellScoreData _scoreData = new CellScoreData() { Score = multipliers[_x + 1, _y - 1], X = _x + 1, Y = _y - 1 };
                 frontier.Add(_scoreData);
             }
-            if (_data.Shape.HasFlag(TileShape.Left) && _data.Data.LeftState == _state)
+            if (_shape.HasFlag(TileShape.Left) && _data.GetCellState(TileShape.Left, _rotation) == _state)
             {
                 CellScoreData _scoreData = new CellScoreData() { Score = multipliers[_x - 1, _y], X = _x -1, Y = _y };
                 frontier.Add(_scoreData);
             }
-            if (_data.Shape.HasFlag(TileShape.Center) && _data.Data.CenterState == _state)
+            if (_shape.HasFlag(TileShape.Center) && _data.GetCellState(TileShape.Center, _rotation) == _state)
             {
                 CellScoreData _scoreData = new CellScoreData() { Score = multipliers[_x, _y], X = _x, Y = _y };
                 frontier.Add(_scoreData);
             }
-            if (_data.Shape.HasFlag(TileShape.Right) && _data.Data.RightState == _state)
+            if (_shape.HasFlag(TileShape.Right) && _data.GetCellState(TileShape.Right, _rotation) == _state)
             {
                 CellScoreData _scoreData = new CellScoreData() { Score = multipliers[_x + 1, _y], X = _x + 1, Y = _y };
                 frontier.Add(_scoreData);
             }
-            if (_data.Shape.HasFlag(TileShape.BottomLeft) && _data.Data.BottomLeftState == _state)
+            if (_shape.HasFlag(TileShape.BottomLeft) && _data.GetCellState(TileShape.BottomLeft, _rotation) == _state)
             {
                 CellScoreData _scoreData = new CellScoreData() { Score = multipliers[_x - 1, _y + 1], X = _x - 1, Y = _y + 1 };
                 frontier.Add(_scoreData);
             }
-            if (_data.Shape.HasFlag(TileShape.Bottom) && _data.Data.BottomState == _state)
+            if (_shape.HasFlag(TileShape.Bottom) && _data.GetCellState(TileShape.Bottom, _rotation) == _state)
             {
                 CellScoreData _scoreData = new CellScoreData() { Score = multipliers[_x, _y + 1], X = _x, Y = _y + 1 };
                 frontier.Add(_scoreData);
             }
-            if (_data.Shape.HasFlag(TileShape.BottomRight) && _data.Data.BottomRightState == _state)
+            if (_shape.HasFlag(TileShape.BottomRight) && _data.GetCellState(TileShape.BottomRight, _rotation) == _state)
             {
                 CellScoreData _scoreData = new CellScoreData() { Score = multipliers[_x + 1, _y + 1], X = _x + 1, Y = _y + 1 };
                 frontier.Add(_scoreData);
@@ -277,14 +292,14 @@ namespace GGJ2023
             }
         }
 
-        internal static bool CanPlaceNextTile(TileData currentTile)
+        internal static bool CanPlaceNextTile(TileData currentTile, int _rotation)
         {
             bool _display; 
             for (int y = 0; y < cells.GetLength(1); y++)
             {
                 for (int x = 0; x < cells.GetLength(0); x++)
                 {
-                    if (TryFillPosition(x, y, currentTile, out _display))
+                    if (TryFillPosition(x, y, _rotation, currentTile, out _display))
                         return true; 
                 }
             }
@@ -300,7 +315,6 @@ namespace GGJ2023
             {
                 for (int _x = 0; _x < cells.GetLength(0); _x++)
                 {
-                    Debug.Log(multipliers[_x, _y]);
                     _score += multipliers[_x, _y]; 
                 }
             }

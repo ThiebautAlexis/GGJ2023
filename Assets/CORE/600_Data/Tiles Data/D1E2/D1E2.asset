@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73a454ddf418e36489da017f019f214b, type: 3}
   m_Name: D1E2
   m_EditorClassIdentifier: 
-  Shape: 292
-  Data:
+  shape: 292
+  data:
     TopLeftState: 0
     TopState: 2
     TopRightState: 0
@@ -25,3 +25,4 @@ MonoBehaviour:
     BottomRightState: 0
   Tile: {fileID: 11400000, guid: 3139a36110b84814a804377cc670e0e8, type: 2}
   RotatedTile: {fileID: 11400000, guid: 0e5f4dc43f6e788449fc2869eeecf9c8, type: 2}
+  VFX: {fileID: 0}
