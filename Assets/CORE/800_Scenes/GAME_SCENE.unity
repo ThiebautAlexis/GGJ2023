@@ -44621,12 +44621,24 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1473089627}
     - target: {fileID: 7237035520335488984, guid: 90b9cd5122c6d6641a48685bf4ecef28, type: 3}
+      propertyPath: currentTileData
+      value: 
+      objectReference: {fileID: 11400000, guid: 3c2e17855a6d8884694bfe497df81449, type: 2}
+    - target: {fileID: 7237035520335488984, guid: 90b9cd5122c6d6641a48685bf4ecef28, type: 3}
+      propertyPath: deck.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: c1fe0d2b5bfef084bb4d45fedeae71d1, type: 2}
+    - target: {fileID: 7237035520335488984, guid: 90b9cd5122c6d6641a48685bf4ecef28, type: 3}
       propertyPath: previsualisationTilemap
       value: 
       objectReference: {fileID: 32458020}
     - target: {fileID: 7237035520335488985, guid: 90b9cd5122c6d6641a48685bf4ecef28, type: 3}
       propertyPath: m_Name
       value: GAME MANAGER
+      objectReference: {fileID: 0}
+    - target: {fileID: 7237035520335488986, guid: 90b9cd5122c6d6641a48685bf4ecef28, type: 3}
+      propertyPath: inputClick.m_Bindings.Array.data[0].m_Interactions
+      value: Press(behavior=1)
       objectReference: {fileID: 0}
     - target: {fileID: 7237035520335488987, guid: 90b9cd5122c6d6641a48685bf4ecef28, type: 3}
       propertyPath: m_RootOrder

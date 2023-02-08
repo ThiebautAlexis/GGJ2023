@@ -43,39 +43,41 @@ namespace GGJ2023
         #endregion
 
         #region Public Methods
+        private Sequence previsualisationSequence; 
         public void SetPrevisualisation(Sprite _tileSprite)
         {
             previsualisationImage.sprite = _tileSprite; 
             previsualisationImage.enabled= true;
-            AudioManager.Instance.PlaySFX(AudioManager.Instance.DrawClip, 0.8f); 
-            Sequence _sequence = DOTween.Sequence();
-            _sequence.Join(previsualisationImage.transform.DOLocalMoveX(0f, transitionDuration).SetEase(Ease.InOutBack));
-            _sequence.Join(previsualisationImage.DOFade(1f, transitionDuration).SetEase(Ease.InSine));
+            AudioManager.Instance.PlaySFX(AudioManager.Instance.DrawClip, 0.8f);
+            if (previsualisationSequence.IsActive()) previsualisationSequence.Kill(true); 
+            previsualisationSequence = DOTween.Sequence();
+            previsualisationSequence.Join(previsualisationImage.transform.DOLocalMoveX(0f, transitionDuration).SetEase(Ease.InOutBack));
+            previsualisationSequence.Join(previsualisationImage.DOFade(1f, transitionDuration).SetEase(Ease.InSine));
         }
 
         public Sequence RemovePrevisualisation()
         {
-            Sequence _sequence = DOTween.Sequence();
-            _sequence.Append(previsualisationImage.DOFade(0f, transitionDuration).SetEase(Ease.OutSine));
-            _sequence.Join(previsualisationImage.transform.DOLocalMoveY(previsualisationImage.rectTransform.rect.height * 2, transitionDuration).SetEase(Ease.InOutBack)); 
-            _sequence.AppendCallback(OnPrevisualisationRemoved);
+            previsualisationSequence = DOTween.Sequence();
+            previsualisationSequence.Append(previsualisationImage.DOFade(0f, transitionDuration).SetEase(Ease.OutSine));
+            previsualisationSequence.Join(previsualisationImage.transform.DOLocalMoveY(previsualisationImage.rectTransform.rect.height * 2, transitionDuration).SetEase(Ease.InOutBack));
+            previsualisationSequence.AppendCallback(OnPrevisualisationRemoved);
             void OnPrevisualisationRemoved()
             {
                 previsualisationImage.enabled = false;
                 previsualisationImage.transform.localPosition = new Vector3(previsualisationImage.rectTransform.rect.width * 2,0f,0f);
             }
 
-            return _sequence; 
+            return previsualisationSequence; 
         }
 
         public void ResetPrevisualisationRotation() => previsualisationImage.transform.localRotation = Quaternion.identity; 
 
         public Sequence RotatePrevisualisation(int _rotation)
         {
-            Sequence _sequence = DOTween.Sequence();
-            _sequence.Append(previsualisationImage.transform.DOLocalRotate(Vector3.forward * _rotation, transitionDuration).SetEase(Ease.InOutBack));
+            previsualisationSequence = DOTween.Sequence();
+            previsualisationSequence.Append(previsualisationImage.transform.DOLocalRotate(Vector3.forward * _rotation, transitionDuration).SetEase(Ease.InOutBack));
             
-            return _sequence; 
+            return previsualisationSequence; 
         }
 
         public void SetScore(int _score)

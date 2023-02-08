@@ -17,19 +17,20 @@ namespace GGJ2023
         #endregion
 
         #region Private Methods
-        private void OnMousePosition(InputAction.CallbackContext _context) => GameManager.Instance.UpdatePrevisualisation(_context.ReadValue<Vector2>());
-
+        private void OnMousePosition(InputAction.CallbackContext _context)
+        {
+            if(_context.performed)
+                GameManager.Instance.UpdatePrevisualisation(_context.ReadValue<Vector2>());
+        }
         private void OnMouseClick(InputAction.CallbackContext _context)
         {
-            if (_context.ReadValueAsButton())
-            {
+            if (_context.performed)
                 GameManager.Instance.PlaceTile(); 
-            }
         }
 
         private void OnSpaceBarPressed(InputAction.CallbackContext _context)
         {
-            if (_context.ReadValueAsButton())
+            if (_context.performed)
                 GameManager.Instance.RotateTile(); 
         }
         private void ClickStartGame(InputAction.CallbackContext _context) => GameManager.Instance.StartGame(); 
