@@ -33,7 +33,16 @@ namespace GGJ2023
             if (_context.performed)
                 GameManager.Instance.RotateTile(); 
         }
-        private void ClickStartGame(InputAction.CallbackContext _context) => GameManager.Instance.StartGame(); 
+        private void ClickStartGame(InputAction.CallbackContext _context) => GameManager.Instance.StartGame();
+        private void ResetGame(InputAction.CallbackContext _context)
+        {
+            if(_context.performed)
+            {
+                inputClick.Disable(); 
+                UnityEngine.SceneManagement.SceneManager.LoadScene(0, UnityEngine.SceneManagement.LoadSceneMode.Single); 
+            }
+        } 
+
         #endregion
 
         #region Private Methods
@@ -67,7 +76,8 @@ namespace GGJ2023
             inputClick.FindAction(MousePositionInput).performed -= OnMousePosition;
             inputClick.FindAction(MouseClickInput).performed -= OnMouseClick;
             inputClick.FindAction(SpaceBarInput).performed -= OnSpaceBarPressed;
-            inputClick.Disable();
+            inputClick.FindAction(MouseClickInput).performed += ResetGame; 
+            //inputClick.Disable();
         }
         #endregion 
 

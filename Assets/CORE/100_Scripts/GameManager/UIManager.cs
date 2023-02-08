@@ -37,7 +37,7 @@ namespace GGJ2023
 
             GameManager.OnGameReady += HideMainMenu; 
             GameManager.OnGameStarted += DisplayInGameMenu;
-            GameManager.OnGameStopped += DisplayEndGameMenu; 
+            GameManager.OnGameEnded += DisplayEndGameMenu; 
         }
 
         #endregion

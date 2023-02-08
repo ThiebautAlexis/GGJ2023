@@ -17,7 +17,7 @@ namespace GGJ2023
         [SerializeField] private TileData currentTileData;
         [SerializeField] private Tile currentTile;
 
-        private int currentRotation = 0; 
+        private int currentRotation = 0;
 
         [SerializeField] private Tile rootTile;
         [SerializeField] private TileData[] deck; 
@@ -38,6 +38,7 @@ namespace GGJ2023
         public static event Action OnGameReady; 
         public static event Action OnGameStarted;
         public static event Action OnGameStopped;
+        public static event Action OnGameEnded; 
         #endregion
 
 
@@ -78,6 +79,7 @@ namespace GGJ2023
         private void InitGame()
         {
             GameGrid.InitGrid(baseGrid.GetConvertedCells());
+#if UNITY_EDITOR
             for (int y = 0; y < GameGrid.Cells.GetLength(1); y++)
             {
                 for (int x = 0; x < GameGrid.Cells.GetLength(0); x++)
@@ -86,6 +88,7 @@ namespace GGJ2023
                     tilemap.SetTile(new Vector3Int(x, -y, 0), rootTile);
                 }
             }
+#endif
             currentTile = currentTileData.Tile; 
             ResetRotation(); 
         }
@@ -134,8 +137,16 @@ namespace GGJ2023
 
         private void StopGame()
         {
-            UIManager.Instance.SetScore(GameGrid.GetScore()); 
             OnGameStopped?.Invoke();
+            UIManager.Instance.SetScore(GameGrid.GetScore());
+            if (cameraSequence.IsActive())
+                cameraSequence.Kill(false);
+            cameraSequence = DOTween.Sequence();
+            float _distance = Mathf.Abs(bottomLimit - camera.transform.position.y);
+            cameraSequence.Append(camera.transform.DOLocalMoveY(bottomLimit, _distance / (speed * 2))); 
+            _distance = Mathf.Abs(bottomLimit - topLimit);
+            cameraSequence.Append(camera.transform.DOLocalMoveY(topLimit, _distance / (speed * .5f) ));
+            cameraSequence.AppendCallback(() => OnGameEnded?.Invoke()); 
         }
         #endregion
 
@@ -186,8 +197,8 @@ namespace GGJ2023
 
             void OnSequenceValidate(Vector3Int _position)
             {
-                tilemap.SetTile(_position, currentTileData.Tile);
-                Instantiate(currentTileData.VFX, grid.CellToLocalInterpolated(_position) + gridOffset, Quaternion.Euler(0, 0, currentRotation));
+                tilemap.SetTile(_position, currentTile);
+                //Instantiate(currentTileData.VFX, grid.CellToLocalInterpolated(_position) + gridOffset, Quaternion.Euler(0, 0, currentRotation));
                 previsualisationTilemap.ClearAllTiles();
                 ResetRotation();
                 ProceedToNextTile(); 
@@ -201,6 +212,9 @@ namespace GGJ2023
             {
                 currentRotation += 90;
                 if (currentRotation >= 360) currentRotation = 0;
+
+                if (rotationSequence.IsActive())
+                    return;
 
                 rotationSequence = DOTween.Sequence();
                 rotationSequence.Append(UIManager.Instance.RotatePrevisualisation(currentRotation));
