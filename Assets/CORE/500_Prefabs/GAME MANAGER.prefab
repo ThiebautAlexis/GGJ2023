@@ -178,11 +178,15 @@ MonoBehaviour:
   baseGrid: {fileID: 11400000, guid: 3cec0f4e55456cc4eba7fad89c09bb0a, type: 2}
   grid: {fileID: 0}
   tilemap: {fileID: 0}
-  currentTile: {fileID: 11400000, guid: cc862eee3f8a0d74bb44830b666dfa15, type: 2}
+  currentTileData: {fileID: 11400000, guid: a691956b44e2fc84fbabd8ddce93cb85, type: 2}
+  currentTile: {fileID: 0}
   rootTile: {fileID: 11400000, guid: 34d4ee29d39467242a6c545ff7a6fec8, type: 2}
   deck:
   - {fileID: 11400000, guid: a691956b44e2fc84fbabd8ddce93cb85, type: 2}
   camera: {fileID: 0}
+  topLimit: 0
+  bottomLimit: -22.75
+  speed: 5
   previsualisationTilemap: {fileID: 0}
   validColor: {r: 0.12130821, g: 1, b: 0, a: 0.48235294}
   invalidColor: {r: 1, g: 0, b: 0.09803922, a: 0.5176471}

@@ -8,12 +8,22 @@ namespace GGJ2023
 {
     public class UIManager : MonoBehaviour
     {
+        private static readonly string scoreTextValue = "You made {0} Points!"; 
+
         #region Fields and Properties
         public static UIManager Instance = null;
 
         [Header("In Game")]
         [SerializeField] private Image previsualisationImage;
-        [SerializeField, Range(0f,1f)] private float transitionDuration = .25f; 
+        [SerializeField, Range(0f,1f)] private float transitionDuration = .25f;
+
+        [Header("Canvas")]
+        [SerializeField] private CanvasGroup mainMenu;
+        [SerializeField] private CanvasGroup inGameMenu;
+        [SerializeField] private CanvasGroup endGameMenu;
+
+        [Header("Endgame")]
+        [SerializeField] private TMPro.TextMeshProUGUI scoreText; 
         #endregion
 
 
@@ -23,8 +33,13 @@ namespace GGJ2023
             if (Instance == null)
                 Instance = this;
             else 
-                Destroy(this); 
+                Destroy(this);
+
+            GameManager.OnGameReady += HideMainMenu; 
+            GameManager.OnGameStarted += DisplayInGameMenu;
+            GameManager.OnGameStopped += DisplayEndGameMenu; 
         }
+
         #endregion
 
         #region Public Methods
@@ -53,14 +68,37 @@ namespace GGJ2023
             return _sequence; 
         }
 
-        public Sequence RotatePrevisualisation()
+        public void ResetPrevisualisationRotation() => previsualisationImage.transform.localRotation = Quaternion.identity; 
+
+        public Sequence RotatePrevisualisation(int _rotation)
         {
             Sequence _sequence = DOTween.Sequence();
-            float _targetRotation = previsualisationImage.transform.localEulerAngles.z + 90;
-            if (_targetRotation >= 360) _targetRotation = 0f; 
-            _sequence.Append(previsualisationImage.transform.DOLocalRotate(Vector3.forward * _targetRotation, transitionDuration).SetEase(Ease.InOutBack));
+            _sequence.Append(previsualisationImage.transform.DOLocalRotate(Vector3.forward * _rotation, transitionDuration).SetEase(Ease.InOutBack));
             
             return _sequence; 
+        }
+
+        public void SetScore(int _score)
+        {
+            scoreText.text = string.Format(scoreTextValue, _score); 
+        }
+
+        private void HideMainMenu()
+        {
+            Sequence _transition = DOTween.Sequence();
+            _transition.Join(mainMenu.DOFade(0f, .75f));
+        }
+        public void DisplayInGameMenu()
+        {
+            Sequence _transition = DOTween.Sequence();
+            _transition.Join(inGameMenu.DOFade(1f, .75f)); 
+        }
+
+        public void DisplayEndGameMenu()
+        {
+            Sequence _transition = DOTween.Sequence();
+            _transition.Join(inGameMenu.DOFade(0f, .75f));
+            _transition.Join(endGameMenu.DOFade(1f, .75f)); 
         }
         #endregion
     }
