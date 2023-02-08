@@ -40,7 +40,7 @@ namespace GGJ2023
         [SerializeField] CellData data = new CellData();
         public Tile Tile = null;
 
-        [SerializeField] private ParticleSystem VFX;
+        public ParticleSystem VFX;
 
         public TileShape GetShape(int _rotation)
         {
