@@ -182,11 +182,34 @@ MonoBehaviour:
   currentTile: {fileID: 0}
   rootTile: {fileID: 11400000, guid: 34d4ee29d39467242a6c545ff7a6fec8, type: 2}
   deck:
+  - {fileID: 11400000, guid: c1fe0d2b5bfef084bb4d45fedeae71d1, type: 2}
+  - {fileID: 11400000, guid: a4b8f6c027d93564390e81bd39c57ccd, type: 2}
+  - {fileID: 11400000, guid: 9949892c07e3c244a83ef04800dd8ce7, type: 2}
   - {fileID: 11400000, guid: a691956b44e2fc84fbabd8ddce93cb85, type: 2}
+  - {fileID: 11400000, guid: 9153abf8c80c23d418c3722deb6da577, type: 2}
+  - {fileID: 11400000, guid: 51be915b69b8d7c469c1df7546a4561c, type: 2}
+  - {fileID: 11400000, guid: bc73b1a663920764290b6827d8664fdc, type: 2}
+  - {fileID: 11400000, guid: 5efaab1c993eabe40bc88c5b2cc9cefa, type: 2}
+  - {fileID: 11400000, guid: 35dd56ed99e30fa42bed1110ba724029, type: 2}
+  - {fileID: 11400000, guid: 0abf46ef90b241c46b74ea74504bae79, type: 2}
+  - {fileID: 11400000, guid: 788d8130098bfe644bda27a6605b1df9, type: 2}
+  - {fileID: 11400000, guid: a8031f5d7e5cc614a84f350fd20f0915, type: 2}
+  - {fileID: 11400000, guid: 15df06750b1667b4e8b3f2b53545e042, type: 2}
+  - {fileID: 11400000, guid: 657811c68bec15141ad4c66813e936f4, type: 2}
+  - {fileID: 11400000, guid: ba0875db849a4344c8be9355a1dfbef7, type: 2}
+  - {fileID: 11400000, guid: e83b1d45ac3a5864ab958f193400eb0d, type: 2}
+  - {fileID: 11400000, guid: aa234feeaf918b148b0b0c121b7c2ba8, type: 2}
+  - {fileID: 11400000, guid: 4831d76c53f7ce84391452dc2628574a, type: 2}
+  - {fileID: 11400000, guid: d1d9fc6451aee094c84a26f8f0219a46, type: 2}
+  - {fileID: 11400000, guid: a6ae1910c07d13b4eaee23e4b38e91e3, type: 2}
+  - {fileID: 11400000, guid: 3c2e17855a6d8884694bfe497df81449, type: 2}
+  - {fileID: 11400000, guid: 931efb72e1d79f14487b6234dad487b8, type: 2}
+  - {fileID: 11400000, guid: da5436eafc697b844ab7d2945b7d0db6, type: 2}
+  - {fileID: 11400000, guid: 8c87d7a29d6cc2740ae97867a096344a, type: 2}
   camera: {fileID: 0}
   topLimit: 0
   bottomLimit: -22.75
-  speed: 5
+  speed: 4
   previsualisationTilemap: {fileID: 0}
   validColor: {r: 0.12130821, g: 1, b: 0, a: 0.48235294}
   invalidColor: {r: 1, g: 0, b: 0.09803922, a: 0.5176471}

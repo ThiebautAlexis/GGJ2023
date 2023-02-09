@@ -17,7 +17,7 @@ namespace GGJ2023
         [SerializeField] private TileData currentTileData;
         [SerializeField] private Tile currentTile;
 
-        private int currentRotation = 0; 
+        private int currentRotation = 0;
 
         [SerializeField] private Tile rootTile;
         [SerializeField] private TileData[] deck; 
@@ -38,6 +38,7 @@ namespace GGJ2023
         public static event Action OnGameReady; 
         public static event Action OnGameStarted;
         public static event Action OnGameStopped;
+        public static event Action OnGameEnded; 
         #endregion
 
 
@@ -54,9 +55,31 @@ namespace GGJ2023
             InitGame();
         }
 
+        private void LateUpdate()
+        {
+            if (placingSequence.IsActive() || rotationSequence.IsActive())
+                return;
+
+            if (mouseToGridPosition == previousGridPosition)
+                return;
+
+            gridPosition = mouseToGridPosition;
+            previousGridPosition = gridPosition;
+            isValidTile = GameGrid.TryFillPosition(gridPosition.x, -gridPosition.y, currentRotation, currentTileData, out bool _displayTile);
+            previsualisationTilemap.ClearAllTiles();
+            if (_displayTile)
+            {
+                previsualisationTilemap.color = isValidTile ? validColor : invalidColor;
+                previsualisationTilemap.SetTile(gridPosition, currentTile);
+                // SNAP SOUND
+                AudioManager.Instance.PlaySFX(AudioManager.Instance.SnapClip);
+            }
+        }
+
         private void InitGame()
         {
             GameGrid.InitGrid(baseGrid.GetConvertedCells());
+#if UNITY_EDITOR
             for (int y = 0; y < GameGrid.Cells.GetLength(1); y++)
             {
                 for (int x = 0; x < GameGrid.Cells.GetLength(0); x++)
@@ -65,6 +88,7 @@ namespace GGJ2023
                     tilemap.SetTile(new Vector3Int(x, -y, 0), rootTile);
                 }
             }
+#endif
             currentTile = currentTileData.Tile; 
             ResetRotation(); 
         }
@@ -82,10 +106,16 @@ namespace GGJ2023
             } 
             else
                 UIManager.Instance.SetPrevisualisation(currentTileData.Tile.sprite);
+
+            placingSequence.Kill(true);
+            placingSequence = null; 
         }
 
         private void ResetRotation()
         {
+            var _t = currentTile.transform;
+            _t.SetTRS(Vector3.zero, Quaternion.identity, Vector3.one);
+            currentTile.transform = _t;
             currentRotation = 0;
             UIManager.Instance.ResetPrevisualisationRotation(); 
         }
@@ -93,10 +123,10 @@ namespace GGJ2023
         public void StartGame()
         {
             OnGameReady?.Invoke(); 
-            _cameraSequence = DOTween.Sequence();
+            cameraSequence = DOTween.Sequence();
             float _distance = (camera.transform.position.y - topLimit);
-            _cameraSequence.Append(camera.transform.DOLocalMoveY(topLimit, _distance / speed));
-            _cameraSequence.AppendCallback(OnGameStarting); 
+            cameraSequence.Append(camera.transform.DOLocalMoveY(topLimit, _distance / speed));
+            cameraSequence.AppendCallback(OnGameStarting); 
 
             void OnGameStarting()
             {
@@ -107,80 +137,70 @@ namespace GGJ2023
 
         private void StopGame()
         {
-            UIManager.Instance.SetScore(GameGrid.GetScore()); 
             OnGameStopped?.Invoke();
+            UIManager.Instance.SetScore(GameGrid.GetScore());
+            if (cameraSequence.IsActive())
+                cameraSequence.Kill(false);
+            cameraSequence = DOTween.Sequence();
+            float _distance = Mathf.Abs(bottomLimit - camera.transform.position.y);
+            cameraSequence.Append(camera.transform.DOLocalMoveY(bottomLimit, _distance / (speed * 2))); 
+            _distance = Mathf.Abs(bottomLimit - topLimit);
+            cameraSequence.Append(camera.transform.DOLocalMoveY(topLimit, _distance / (speed * .5f) ));
+            cameraSequence.AppendCallback(() => OnGameEnded?.Invoke()); 
         }
         #endregion
 
         #region Public Method
         Vector3Int previousGridPosition = Vector3Int.zero; 
         Vector3Int gridPosition = Vector3Int.zero;
-        private bool _isValidTile = false;
-        private Sequence _cameraSequence;
+        Vector3Int mouseToGridPosition = Vector3Int.zero;
+        private bool isValidTile = false;
+        private Sequence cameraSequence;
         public void UpdatePrevisualisation(Vector2 _mousePosition)
         {
-            if (_placingSequence.IsActive() || rotationSequence.IsActive())
-            {
-                return; 
-            }
+            if (cameraSequence.IsActive())
+                cameraSequence.Kill(false);
 
-            if (_cameraSequence.IsActive())
-                _cameraSequence.Kill(false);
-
-            _cameraSequence = DOTween.Sequence(); 
+            cameraSequence = DOTween.Sequence(); 
             if (_mousePosition.y <= (Screen.height * .15f))
             {
                 // v = d/t => t = v/d
                 float _distance = (camera.transform.position.y - bottomLimit); 
                 if(_distance > 0)
-                    _cameraSequence.Append(camera.transform.DOLocalMoveY(bottomLimit, _distance/speed)); 
+                    cameraSequence.Append(camera.transform.DOLocalMoveY(bottomLimit, _distance/speed)); 
             }
             else if(_mousePosition.y >= Screen.height - (Screen.height * .15f ))
             {
                 float _distance = (topLimit - camera.transform.position.y);
                 if (_distance > 0)
-                    _cameraSequence.Append(camera.transform.DOLocalMoveY(topLimit, _distance/speed));
+                    cameraSequence.Append(camera.transform.DOLocalMoveY(topLimit, _distance/speed));
             }
-            gridPosition = grid.WorldToCell(camera.ScreenToWorldPoint(_mousePosition));
-            if(gridPosition == previousGridPosition) 
-            {
-                return;
-            }
-            previousGridPosition = gridPosition;
-            _isValidTile = GameGrid.TryFillPosition(gridPosition.x, -gridPosition.y, currentRotation, currentTileData, out bool _displayTile);
-            previsualisationTilemap.ClearAllTiles(); 
-            if(_displayTile)
-            {
-                previsualisationTilemap.color = _isValidTile ? validColor : invalidColor;
-                previsualisationTilemap.SetTile(gridPosition, currentTile);
-                // SNAP SOUND
-                AudioManager.Instance.PlaySFX(AudioManager.Instance.SnapClip); 
-            }
+
+            mouseToGridPosition = grid.WorldToCell(camera.ScreenToWorldPoint(_mousePosition));         
         }
 
-        private Sequence _placingSequence; 
+        private Sequence placingSequence;
+        private static Vector3 gridOffset = Vector2.one;
         public void PlaceTile()
         {
-            if(_isValidTile) 
+            if (rotationSequence.IsActive() || placingSequence.IsActive()) return; 
+
+            if(isValidTile) 
             {
                 Vector3Int _position = gridPosition; 
                 GameGrid.FillPosition(_position.x, -_position.y, currentTileData, currentRotation);
                 AudioManager.Instance.PlaySFX(AudioManager.Instance.TilePoseClip);
-                Instantiate(currentTileData.VFX, _position, Quaternion.Euler(0, 0, currentRotation)); 
-                _placingSequence = DOTween.Sequence();
-                _placingSequence.Append(UIManager.Instance.RemovePrevisualisation());
-                _placingSequence.AppendCallback(() => OnSequenceValidate(_position)); 
+                placingSequence = DOTween.Sequence();
+                placingSequence.Append(UIManager.Instance.RemovePrevisualisation());
+                placingSequence.AppendCallback(() => OnSequenceValidate(_position));
             }
 
             void OnSequenceValidate(Vector3Int _position)
             {
-                tilemap.SetTile(_position, currentTileData.Tile);
+                tilemap.SetTile(_position, currentTile);
+                //Instantiate(currentTileData.VFX, grid.CellToLocalInterpolated(_position) + gridOffset, Quaternion.Euler(0, 0, currentRotation));
                 previsualisationTilemap.ClearAllTiles();
-                var _t = currentTile.transform;
-                _t.SetTRS(Vector3.zero, Quaternion.identity, Vector3.one);
-                currentTile.transform = _t;
                 ResetRotation();
-
                 ProceedToNextTile(); 
             }
         }
@@ -188,10 +208,13 @@ namespace GGJ2023
         Sequence rotationSequence = null; 
         public void RotateTile()
         {
-            if(rotationSequence == null)
+            if(!rotationSequence.IsActive() && !placingSequence.IsActive())
             {
                 currentRotation += 90;
                 if (currentRotation >= 360) currentRotation = 0;
+
+                if (rotationSequence.IsActive())
+                    return;
 
                 rotationSequence = DOTween.Sequence();
                 rotationSequence.Append(UIManager.Instance.RotatePrevisualisation(currentRotation));
@@ -200,7 +223,7 @@ namespace GGJ2023
 
             void ResetRotationSequence()
             {
-                _isValidTile = GameGrid.TryFillPosition(gridPosition.x, -gridPosition.y, currentRotation, currentTileData, out bool _displayTile);
+                isValidTile = GameGrid.TryFillPosition(gridPosition.x, -gridPosition.y, currentRotation, currentTileData, out bool _displayTile);
                 previsualisationTilemap.ClearAllTiles();
                 if (_displayTile)
                 {
@@ -209,12 +232,10 @@ namespace GGJ2023
                     currentTile.transform = _t;
 
                     previsualisationTilemap.SetTile(gridPosition, currentTile); 
-                    previsualisationTilemap.color = _isValidTile ? validColor : invalidColor;
+                    previsualisationTilemap.color = isValidTile ? validColor : invalidColor;
                 }
-                else
-
                 rotationSequence.Kill(true);
-                rotationSequence = null; 
+                rotationSequence = null;
             }
         }
         #endregion

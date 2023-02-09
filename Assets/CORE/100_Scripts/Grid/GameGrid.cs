@@ -72,22 +72,22 @@ namespace GGJ2023
 
             // Top Left
             if (_tileShape.HasFlag(TileShape.TopLeft) && 
-                (_yCenterIndex - 1 < 0 || cells[_xCenterIndex - 1, _yCenterIndex - 1] != CellState.Empty))
+                (_yCenterIndex - 1 < 0 || _xCenterIndex - 1 < 0 || cells[_xCenterIndex - 1, _yCenterIndex - 1] != CellState.Empty))
                 return false;
 
             // Bottom Left
             if (_tileShape.HasFlag(TileShape.BottomLeft) && 
-                (_yCenterIndex + 1 <= cells.GetLength(1) && _xCenterIndex - 1 >= 0 && cells[_xCenterIndex - 1, _yCenterIndex + 1] != CellState.Empty))
+                (_yCenterIndex + 1 >= cells.GetLength(1) || _xCenterIndex - 1 < 0 || cells[_xCenterIndex - 1, _yCenterIndex + 1] != CellState.Empty))
                 return false;
 
             // Top Right
             if (_tileShape.HasFlag(TileShape.TopRight) && 
-                (_yCenterIndex - 1 < 0 || (_xCenterIndex + 1 <= cells.GetLength(0) && cells[_xCenterIndex + 1, _yCenterIndex - 1] != CellState.Empty)))
+                (_yCenterIndex - 1 < 0 || _xCenterIndex + 1 >= cells.GetLength(0) || cells[_xCenterIndex + 1, _yCenterIndex - 1] != CellState.Empty))
                 return false;
 
             // Bottom Right
             if (_tileShape.HasFlag(TileShape.BottomRight) && 
-                (_yCenterIndex + 1 <= cells.GetLength(1) && _xCenterIndex + 1 <= cells.GetLength(0) && cells[_xCenterIndex + 1, _yCenterIndex + 1] != CellState.Empty))
+                (_yCenterIndex + 1 >= cells.GetLength(1) || _xCenterIndex + 1 >= cells.GetLength(0) || cells[_xCenterIndex + 1, _yCenterIndex + 1] != CellState.Empty))
                 return false;
 
             if ((_tileShape.HasFlag(TileShape.TopLeft) && CheckNeighbourTiles(_xCenterIndex - 1, _yCenterIndex - 1, _tileData.GetCellState(TileShape.TopLeft, _rotation))) ||
