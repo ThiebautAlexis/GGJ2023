@@ -254,6 +254,14 @@ MonoBehaviour:
       m_Interactions: 
       m_SingletonActionBindings: []
       m_Flags: 0
+    - m_Name: Help
+      m_Type: 1
+      m_ExpectedControlType: Button
+      m_Id: 9a8a5f9c-7278-49b7-8b28-4a90005fd420
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings: []
+      m_Flags: 0
     m_Bindings:
     - m_Name: 
       m_Id: 013e2718-aa37-4bf0-8e13-3f29e1dedf1d
@@ -278,6 +286,14 @@ MonoBehaviour:
       m_Processors: 
       m_Groups: 
       m_Action: Space
+      m_Flags: 0
+    - m_Name: 
+      m_Id: f9310918-e602-4907-a6a2-f0518d5e5d80
+      m_Path: <Keyboard>/h
+      m_Interactions: Press
+      m_Processors: 
+      m_Groups: 
+      m_Action: Help
       m_Flags: 0
 --- !u!114 &7237035520335488981
 MonoBehaviour:

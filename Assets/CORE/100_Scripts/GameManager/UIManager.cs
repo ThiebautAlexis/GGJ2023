@@ -21,6 +21,7 @@ namespace GGJ2023
         [SerializeField] private CanvasGroup mainMenu;
         [SerializeField] private CanvasGroup inGameMenu;
         [SerializeField] private CanvasGroup endGameMenu;
+        [SerializeField] private CanvasGroup tutoGroup; 
 
         [Header("Endgame")]
         [SerializeField] private TMPro.TextMeshProUGUI scoreText; 
@@ -101,6 +102,16 @@ namespace GGJ2023
             Sequence _transition = DOTween.Sequence();
             _transition.Join(inGameMenu.DOFade(0f, .75f));
             _transition.Join(endGameMenu.DOFade(1f, .75f)); 
+        }
+
+        private Sequence tutoSequence = null; 
+        public void DisplayTuto(bool _display)
+        {
+            if (tutoSequence.IsActive()) tutoSequence.Kill(false);
+
+            tutoSequence = DOTween.Sequence(); 
+            float _fadingValue = _display ? 1f : 0f; 
+            tutoSequence.Append(tutoGroup.DOFade(_fadingValue, transitionDuration).SetEase(Ease.OutSine));
         }
         #endregion
     }
