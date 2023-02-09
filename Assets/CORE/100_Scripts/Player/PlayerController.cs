@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem; 
 
@@ -9,6 +10,7 @@ namespace GGJ2023
         public static readonly string MousePositionInput = "MousePosition";
         public static readonly string MouseClickInput = "MouseClick";
         public static readonly string SpaceBarInput = "Space";
+        public static readonly string HelpInput = "Help";
         #endregion 
 
         #region Fields and Properties
@@ -41,7 +43,14 @@ namespace GGJ2023
                 inputClick.Disable(); 
                 UnityEngine.SceneManagement.SceneManager.LoadScene(0, UnityEngine.SceneManagement.LoadSceneMode.Single); 
             }
-        } 
+        }
+        private void OnHelpHeld(InputAction.CallbackContext _context)
+        {
+            if (_context.started)
+                UIManager.Instance.DisplayTuto(true); 
+            if (_context.canceled)
+                UIManager.Instance.DisplayTuto(false);
+        }
 
         #endregion
 
@@ -69,6 +78,8 @@ namespace GGJ2023
             inputClick.FindAction(MousePositionInput).performed += OnMousePosition;
             inputClick.FindAction(MouseClickInput).performed += OnMouseClick;
             inputClick.FindAction(SpaceBarInput).performed += OnSpaceBarPressed;
+            inputClick.FindAction(HelpInput).started += OnHelpHeld; 
+            inputClick.FindAction(HelpInput).canceled += OnHelpHeld; 
         }
 
         public void DisableControls()
@@ -77,6 +88,8 @@ namespace GGJ2023
             inputClick.FindAction(MouseClickInput).performed -= OnMouseClick;
             inputClick.FindAction(SpaceBarInput).performed -= OnSpaceBarPressed;
             inputClick.FindAction(MouseClickInput).performed += ResetGame; 
+            inputClick.FindAction(HelpInput).started -= OnHelpHeld; 
+            inputClick.FindAction(HelpInput).canceled -= OnHelpHeld; 
             //inputClick.Disable();
         }
         #endregion 

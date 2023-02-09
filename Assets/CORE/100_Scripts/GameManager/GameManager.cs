@@ -84,6 +84,9 @@ namespace GGJ2023
             {
                 for (int x = 0; x < GameGrid.Cells.GetLength(0); x++)
                 {
+                    if (y == 0 || x == 0 || y == GameGrid.Cells.GetLength(1) - 1 || x == GameGrid.Cells.GetLength(0) - 1) 
+                        tilemap.SetTile(new Vector3Int(x, -y, 0), rootTile);
+
                     if (GameGrid.Cells[x, y] == CellState.Empty) continue;
                     tilemap.SetTile(new Vector3Int(x, -y, 0), rootTile);
                 }
