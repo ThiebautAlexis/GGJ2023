@@ -201,7 +201,8 @@ namespace GGJ2023
             void OnSequenceValidate(Vector3Int _position)
             {
                 tilemap.SetTile(_position, currentTile);
-                //Instantiate(currentTileData.VFX, grid.CellToLocalInterpolated(_position) + gridOffset, Quaternion.Euler(0, 0, currentRotation));
+                //
+                Instantiate(currentTileData.VFX, grid.CellToLocalInterpolated(_position) + gridOffset, Quaternion.Euler(0, 0, currentRotation));
                 previsualisationTilemap.ClearAllTiles();
                 ResetRotation();
                 ProceedToNextTile(); 
