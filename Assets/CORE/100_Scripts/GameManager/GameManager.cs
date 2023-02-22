@@ -195,13 +195,13 @@ namespace GGJ2023
                 AudioManager.Instance.PlaySFX(AudioManager.Instance.TilePoseClip);
                 placingSequence = DOTween.Sequence();
                 placingSequence.Append(UIManager.Instance.RemovePrevisualisation());
-                placingSequence.AppendCallback(() => OnSequenceValidate(_position));
+                placingSequence.onComplete += () => OnSequenceValidate(_position);
             }
 
             void OnSequenceValidate(Vector3Int _position)
             {
                 tilemap.SetTile(_position, currentTile);
-                //Instantiate(currentTileData.VFX, grid.CellToLocalInterpolated(_position) + gridOffset, Quaternion.Euler(0, 0, currentRotation));
+                Instantiate(currentTileData.VFX, grid.CellToLocalInterpolated(_position) + gridOffset, Quaternion.Euler(0, 0, currentRotation));
                 previsualisationTilemap.ClearAllTiles();
                 ResetRotation();
                 ProceedToNextTile(); 
@@ -211,34 +211,34 @@ namespace GGJ2023
         Sequence rotationSequence = null; 
         public void RotateTile()
         {
-            if(!rotationSequence.IsActive() && !placingSequence.IsActive())
+            if(!placingSequence.IsActive())
             {
+                if (rotationSequence.IsActive())
+                    return;
                 currentRotation += 90;
                 if (currentRotation >= 360) currentRotation = 0;
 
-                if (rotationSequence.IsActive())
-                    return;
 
+                float _transitionDuration = UIManager.Instance.RotatePrevisualisation(currentRotation); 
                 rotationSequence = DOTween.Sequence();
-                rotationSequence.Append(UIManager.Instance.RotatePrevisualisation(currentRotation));
+                rotationSequence.AppendInterval(_transitionDuration);
                 rotationSequence.AppendCallback(ResetRotationSequence); 
-            }
 
-            void ResetRotationSequence()
-            {
-                isValidTile = GameGrid.TryFillPosition(gridPosition.x, -gridPosition.y, currentRotation, currentTileData, out bool _displayTile);
-                previsualisationTilemap.ClearAllTiles();
-                if (_displayTile)
+                void ResetRotationSequence()
                 {
-                    var _t = currentTile.transform; 
-                    _t.SetTRS(Vector3.zero, Quaternion.Euler(0, 0, currentRotation), Vector3.one);
-                    currentTile.transform = _t;
+                    isValidTile = GameGrid.TryFillPosition(gridPosition.x, -gridPosition.y, currentRotation, currentTileData, out bool _displayTile);
+                    previsualisationTilemap.ClearAllTiles();
+                    if (_displayTile)
+                    {
+                        var _t = currentTile.transform; 
+                        _t.SetTRS(Vector3.zero, Quaternion.Euler(0, 0, currentRotation), Vector3.one);
+                        currentTile.transform = _t;
 
-                    previsualisationTilemap.SetTile(gridPosition, currentTile); 
-                    previsualisationTilemap.color = isValidTile ? validColor : invalidColor;
+                        previsualisationTilemap.SetTile(gridPosition, currentTile); 
+                        previsualisationTilemap.color = isValidTile ? validColor : invalidColor;
+                    }
+                    rotationSequence = null;
                 }
-                rotationSequence.Kill(true);
-                rotationSequence = null;
             }
         }
         #endregion

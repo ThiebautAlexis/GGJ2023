@@ -42829,6 +42829,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 3cec0f4e55456cc4eba7fad89c09bb0a, type: 2}
     - target: {fileID: 7237035520335488984, guid: 90b9cd5122c6d6641a48685bf4ecef28, type: 3}
+      propertyPath: bottomLimit
+      value: -13.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7237035520335488984, guid: 90b9cd5122c6d6641a48685bf4ecef28, type: 3}
       propertyPath: currentTileData
       value: 
       objectReference: {fileID: 11400000, guid: 4831d76c53f7ce84391452dc2628574a, type: 2}

@@ -71,14 +71,14 @@ namespace GGJ2023
             return previsualisationSequence; 
         }
 
-        public void ResetPrevisualisationRotation() => previsualisationImage.transform.localRotation = Quaternion.identity; 
+        public void ResetPrevisualisationRotation() => previsualisationImage.transform.localRotation = Quaternion.identity;
 
-        public Sequence RotatePrevisualisation(int _rotation)
+        Sequence rotationSequence = null; 
+        public float RotatePrevisualisation(int _rotation)
         {
-            previsualisationSequence = DOTween.Sequence();
-            previsualisationSequence.Append(previsualisationImage.transform.DOLocalRotate(Vector3.forward * _rotation, transitionDuration).SetEase(Ease.InOutBack));
-            
-            return previsualisationSequence; 
+            rotationSequence = DOTween.Sequence();
+            rotationSequence.Append(previsualisationImage.transform.DOLocalRotate(Vector3.forward * _rotation, transitionDuration).SetEase(Ease.InOutBack));
+            return transitionDuration; 
         }
 
         public void SetScore(int _score)
